@@ -1,0 +1,12 @@
+.digital-id-container {
+  padding: 20px;
+  background-color: #fff;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.qr-container {
+  margin: 20px 0;
+}

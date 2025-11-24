@@ -1,0 +1,114 @@
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+} 
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+} */
+
+/* .read-the-docs {
+  color: #888;
+} */
+
+
+/* Force full viewport centering */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f6fa; /* light gray background */
+}
+
+/* Override EduMin's narrow card */
+.authincation-content {
+  width: 100%;
+  max-width: 480px !important; /* increase width */
+  margin: auto;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px !important;
+}
+
+/* Optional: smooth alignment fix */
+.authincation .container,
+.authincation .row {
+  height: 100%;
+}
+
+/* Remove unwanted spacing that pushes content upward */
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+.card {
+  border-radius: 15px;
+}
+
+
+.table-hover tbody tr:hover {
+  background-color: #f1f5f9;
+  transition: 0.2s;
+}
+
+
+
+.leaflet-container {
+  height: 400px;  /* or any fixed height */
+  width: 100%;
+}
+
+
+/* .content-body {
+  margin-left: 250px;
+  transition: all 0.3s ease;
+} */
+
+
+
+/* COLLAPSED sidebar */
+/* .main-wrapper.menu-toggle .dlabnav {
+  margin-left: -250px;
+  transition: all 0.3s ease;
+}
+
+/* Bring content back when sidebar closed */
+/* .main-wrapper.menu-toggle .content-body {
+  margin-left: 0 !important;
+}  */

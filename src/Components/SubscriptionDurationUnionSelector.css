@@ -1,0 +1,43 @@
+.duration-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 60px;
+}
+
+.option-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  width: 48%;
+}
+
+.option-container.selected {
+  background-color: #d9f8e5; /* light green */
+}
+
+.radio-circle {
+  height: 18px;
+  width: 18px;
+  border-radius: 10px;
+  border: 2px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.selected-rb {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #333;
+}
+
+.label-text {
+  font-size: 16px; /* match Sizes.h4 */
+}
