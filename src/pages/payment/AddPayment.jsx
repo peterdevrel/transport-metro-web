@@ -5,14 +5,9 @@ import { useRegister } from '../../Contexts/RegistrationContextProvider'
 import { useNavigate } from 'react-router-dom'
 import Dropdown from '../../Components/Dropdown'
 import { useAuthContext } from '../../Contexts/UserContextProvider'
-import { useCourse } from '../../Contexts/CourseContextProvider'
 import { toast } from 'react-toastify'
-import DescriptionEditor from '../../Components/DescriptionEditor'
-
 import { Editor } from '@tinymce/tinymce-react';
 import { useLibrary } from '../../Contexts/LibraryContextProvider'
-import Files from '../../Components/Files'
-import Swal from 'sweetalert2'
 import { usePayment } from '../../Contexts/PaymentContextProvider'
 
 

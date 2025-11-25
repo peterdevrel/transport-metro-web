@@ -3,11 +3,13 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { ContainerTitle } from "../../Components/ContainerTitle";
-import WalletCard from "../../components/WalletCard";
+import WalletCard from "../../Components/WalletCard";
 import { useAuthContext } from "../../Contexts/UserContextProvider";
 import { ClipLoader } from "react-spinners";
 import Colors from "../../Utils/Colors";
 import { useNavigate } from "react-router-dom";
+
+
 
 // Fix default icon for Leaflet
 delete L.Icon.Default.prototype._getIconUrl;

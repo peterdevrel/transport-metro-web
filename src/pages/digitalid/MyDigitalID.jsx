@@ -9,7 +9,7 @@ import { useServiceContext } from '../../Contexts/ServiceContextProvider';
 import { toast } from 'react-toastify';
 import HeaderTitle from '../../Components/HeaderTitle';
 import { ContainerTitle } from '../../Components/ContainerTitle';
-import WalletCard from '../../components/WalletCard';
+import WalletCard from '../../Components/WalletCard';
 import Colors from '../../Utils/Colors';
 
 const MyDigitalID = () => {

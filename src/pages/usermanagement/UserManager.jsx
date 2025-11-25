@@ -18,7 +18,7 @@ import Radio from '../../Components/Radio'
 import { useTranslation } from 'react-i18next';
 import RoleManager from './RoleManager'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 import { ClipLoader } from 'react-spinners'
 
 

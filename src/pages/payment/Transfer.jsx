@@ -12,10 +12,7 @@ import { useCustomer } from '../../Contexts/CustomerContextProvider'
 import RecipientList from '../../Components/RecipientList'
 import { useDedicatedVirtualContext } from '../../Contexts/DedicatedVirtualAccountContextProvider'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
-import { ClipLoader } from 'react-spinners'
-import Colors from '../../Utils/Colors'
-
+import WalletCard from '../../Components/WalletCard'
 
 
 

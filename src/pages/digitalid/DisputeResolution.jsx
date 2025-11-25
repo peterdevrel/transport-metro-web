@@ -5,7 +5,7 @@ import { useServiceContext } from '../../Contexts/ServiceContextProvider'
 import { useCustomer } from '../../Contexts/CustomerContextProvider'
 import { useTranslation } from 'react-i18next';
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 
 
 

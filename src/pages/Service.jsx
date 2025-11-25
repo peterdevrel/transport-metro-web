@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import WalletCard from "../components/WalletCard";
+import WalletCard from "../Components/WalletCard";
 import { useAuthContext } from '../Contexts/UserContextProvider'
 import { useServiceContext } from '../Contexts/ServiceContextProvider'
 import { useDedicatedVirtualContext } from '../Contexts/DedicatedVirtualAccountContextProvider'
 import { useCustomer } from '../Contexts/CustomerContextProvider'
-import Colors from '../Utils/Colors'
-import { toast } from 'react-toastify'
-import Sizes from '../Utils/Sizes'
 import { useTranslation } from 'react-i18next'
-import Translate from '../Components/Translate'
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { ContainerTitle } from '../Components/ContainerTitle';
 
 export default function Dashboard() {

@@ -9,7 +9,7 @@ import Html5QrScanner from '../../Components/Html5QrScanner'
 import QRCode from 'react-qr-code'
 import HeaderTitle from '../../Components/HeaderTitle'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 
 const VerifyDigitalID = () => {
   const { t } = useTranslation()

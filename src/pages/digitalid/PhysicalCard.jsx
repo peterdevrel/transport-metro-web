@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Body from '../../Components/Body'
-import Main from '../../Components/Main'
-import SettingsPanel from '../../Components/SettingsPanel'
-import SideNav from '../../Components/SideNav'
-import WelcomeGreetingHeader from '../../Components/WelcomeGreetingHeader'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../Contexts/UserContextProvider'
 import { useServiceContext } from '../../Contexts/ServiceContextProvider'
@@ -16,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import SubscriptionDurationThreeMonthSelector from '../../Components/SubscriptionDurationThreeMonthSelector'
 import HeaderTitle from '../../Components/HeaderTitle'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 import { ClipLoader } from 'react-spinners'
 
 

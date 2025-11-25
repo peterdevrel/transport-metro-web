@@ -8,11 +8,8 @@ import Files from '../Components/Files'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { ContainerTitle } from '../Components/ContainerTitle'
-import WalletCard from '../components/WalletCard'
+import WalletCard from '../Components/WalletCard'
 import { useAuthContext } from '../Contexts/UserContextProvider'
-import { ClipLoader } from 'react-spinners'
-import Colors from '../Utils/Colors'
-
 
 
 

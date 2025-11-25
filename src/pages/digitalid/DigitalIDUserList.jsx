@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import Body from '../../Components/Body';
 import HeaderTitle from '../../Components/HeaderTitle';
 import { ContainerTitle } from '../../Components/ContainerTitle';
-import WalletCard from '../../components/WalletCard';
+import WalletCard from '../../Components/WalletCard';
 
 const DigitalUserList = () => {
   const { t } = useTranslation();

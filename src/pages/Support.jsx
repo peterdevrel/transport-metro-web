@@ -5,7 +5,7 @@ import Colors from '../Utils/Colors'
 import { toast } from 'react-toastify'
 import CountdownTimer from './CountDownTimer'
 import { ContainerTitle } from '../Components/ContainerTitle'
-import WalletCard from '../components/WalletCard'
+import WalletCard from '../Components/WalletCard'
 import { ClipLoader } from 'react-spinners'
 
 const Support = () => {

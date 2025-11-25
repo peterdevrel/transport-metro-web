@@ -14,7 +14,7 @@ import HeaderTitle from '../../Components/HeaderTitle'
 import RecipientList from '../../Components/RecipientList'
 import Colors from '../../Utils/Colors'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 
 
 

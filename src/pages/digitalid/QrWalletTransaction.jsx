@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Body from '../../Components/Body'
-import HeaderTitle from '../../Components/HeaderTitle'
 import { useRegister } from '../../Contexts/RegistrationContextProvider'
 import { useNavigate } from 'react-router-dom'
 import Dropdown from '../../Components/Dropdown'
 import { useAuthContext } from '../../Contexts/UserContextProvider'
-import { useCourse } from '../../Contexts/CourseContextProvider'
 import { toast } from 'react-toastify'
-import DescriptionEditor from '../../Components/DescriptionEditor'
 
 import { Editor } from '@tinymce/tinymce-react';
 import { useLibrary } from '../../Contexts/LibraryContextProvider'
-import Files from '../../Components/Files'
-import Swal from 'sweetalert2'
 import { usePayment } from '../../Contexts/PaymentContextProvider'
 import { useCustomer } from '../../Contexts/CustomerContextProvider'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 import Colors from '../../Utils/Colors'
 import { ClipLoader } from 'react-spinners'
 

@@ -8,7 +8,7 @@ import { useCustomer } from '../../Contexts/CustomerContextProvider'
 import Dropdown from '../../Components/Dropdown'
 import { useServiceContext } from '../../Contexts/ServiceContextProvider'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 import { useAuthContext } from '../../Contexts/UserContextProvider'
 
 

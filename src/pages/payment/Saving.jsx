@@ -11,11 +11,6 @@ import { useLibrary } from '../../Contexts/LibraryContextProvider'
 import { usePayment } from '../../Contexts/PaymentContextProvider'
 import { ClipLoader } from 'react-spinners'
 import Colors from '../../Utils/Colors'
-import { useDedicatedVirtualContext } from '../../Contexts/DedicatedVirtualAccountContextProvider'
-import VirtualAccountCard from '../../Components/VirtualAccountCard'
-
-
-
 
 
 const Savings = () => {

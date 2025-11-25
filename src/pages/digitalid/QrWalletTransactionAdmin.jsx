@@ -16,7 +16,7 @@ import Swal from 'sweetalert2'
 import { usePayment } from '../../Contexts/PaymentContextProvider'
 import { useCustomer } from '../../Contexts/CustomerContextProvider'
 import { ContainerTitle } from '../../Components/ContainerTitle'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 import Colors from '../../Utils/Colors'
 import { ClipLoader } from 'react-spinners'
 

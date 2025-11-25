@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ContainerTitle } from "../../Components/ContainerTitle";
-import WalletCard from "../../components/WalletCard";
+import WalletCard from "../../Components/WalletCard";
 import { useAuthContext } from "../../Contexts/UserContextProvider";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";

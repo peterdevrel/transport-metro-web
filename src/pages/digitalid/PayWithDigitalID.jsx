@@ -10,7 +10,7 @@ import { useCustomer } from '../../Contexts/CustomerContextProvider'
 import HeaderTitle from '../../Components/HeaderTitle'
 import { ContainerTitle } from '../../Components/ContainerTitle'
 import Colors from '../../Utils/Colors'
-import WalletCard from '../../components/WalletCard'
+import WalletCard from '../../Components/WalletCard'
 
 
 
