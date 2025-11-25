@@ -9,7 +9,7 @@ import Service from "../pages/Service";
 import Settings from "../pages/Settings";
 import Support from "../pages/Support";
 import VerifyDigitalID from '../pages/digitalid/VerifyDIgitalID';
-import PayWithDigitalID from '../Pages/digitalid/PayWithDigitalID';
+import PayWithDigitalID from '../pages/digitalid/PayWithDigitalID';
 import PhysicalCard from '../pages/digitalid/PhysicalCard';
 import TransportRecipientAccount from '../pages/digitalid/TransportRecipientAccount';
 import QrWalletTransaction from '../pages/digitalid/QrWalletTransaction';
