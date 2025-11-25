@@ -7,13 +7,14 @@ import Dashboard from "../pages/Dashboard";
 import Transport from "../pages/Transport";
 import Service from "../pages/Service";
 import Settings from "../pages/Settings";
-import VerifyDigitalID from '../Pages/digitalid/VerifyDIgitalID';
+import Support from "../pages/Support";
+import VerifyDigitalID from '../pages/digitalid/VerifyDIgitalID';
 import PayWithDigitalID from '../Pages/digitalid/PayWithDigitalID';
-import PhysicalCard from '../Pages/digitalid/PhysicalCard';
-import TransportRecipientAccount from '../Pages/digitalid/TransportRecipientAccount';
-import QrWalletTransaction from '../Pages/digitalid/QrWalletTransaction';
-import AddSaving from "../Pages/payment/AddSaving";
-import Savings from "../Pages/payment/Saving";
+import PhysicalCard from '../pages/digitalid/PhysicalCard';
+import TransportRecipientAccount from '../pages/digitalid/TransportRecipientAccount';
+import QrWalletTransaction from '../pages/digitalid/QrWalletTransaction';
+import AddSaving from "../pages/payment/AddSaving";
+import Savings from "../pages/payment/Saving";
 import GenerateIDCardUploader from "../pages/digitalid/GenerateIDCardUploader";
 import DigitalUserList from "../pages/digitalid/DigitalIDUserList";
 import CreateUserHomePage from "../pages/CreateUserHomePage";
@@ -36,7 +37,6 @@ import CardDetailPage from "../pages/digitalid/CardDetailPage";
 import { useAuthContext } from "../Contexts/UserContextProvider";
 import DisputeResolution from "../pages/digitalid/DisputeResolution";
 import QrWalletTransactionAdmin from "../pages/digitalid/QrWalletTransactionAdmin";
-import Support from "../Pages/Support";
 
 function AppContent() {
   const location = useLocation();
