@@ -622,7 +622,7 @@ return (
                         padding: "12px 15px",
                       }}
                     >
-                      📥 Create Transport Recipient
+                      📥 Transport Recipient
                     </button>
                   )}
 

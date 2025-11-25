@@ -105,6 +105,7 @@ const usersPerPage = 5;
 
 const filteredUsers = allCardApplication.filter(user =>
     user?.email?.toLowerCase().includes(search.toLowerCase()) 
+    // user?.printed?.toLowerCase().includes(search.toLowerCase()) 
 );
 
 const indexOfLastUser = currentPage * usersPerPage;
@@ -306,13 +307,7 @@ return (
                     📥 Create Pin
                   </button>
 
-                  <button
-                    onClick={() => navigate('/pay/with/digital/id')}
-                    className="btn text-white flex-fill"
-                    style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px" }}
-                  >
-                    📥 Pay with ID
-                  </button>
+       
 
                   {userroledata[0]?.cardManager && (
                     <button

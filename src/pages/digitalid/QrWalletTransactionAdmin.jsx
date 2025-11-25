@@ -33,7 +33,7 @@ const statusdata = [
 
 
 
-const QrWalletTransaction = () => {
+const QrWalletTransactionAdmin = () => {
 
                
            
@@ -51,9 +51,7 @@ const QrWalletTransaction = () => {
 
       const { 
         getAllQrWalletTransaction,
-        qrWalletTransactionData,
-        getAllQrUserWalletTransaction,
-       QrUserWalletTransactionData,
+        qrWalletTransactionData
       } = useCustomer()
 
     const {
@@ -145,7 +143,7 @@ const QrWalletTransaction = () => {
       getAllFeeTypeData()
       getAllPaymentTypesData()
       getAllCashPaymentData()
-      getAllQrUserWalletTransaction()
+      getAllQrWalletTransaction()
       fetchAllData();
     }, []);
     
@@ -155,7 +153,7 @@ const QrWalletTransaction = () => {
         const usersPerPage = 5;
         
         
-        const filteredUsers = QrUserWalletTransactionData.filter(user =>
+        const filteredUsers = qrWalletTransactionData.filter(user =>
             user?.user?.email?.toLowerCase().includes(search.toLowerCase())
         );
         
@@ -861,4 +859,4 @@ const AddModalPayment = () => {
   )
 }
 
-export default QrWalletTransaction
+export default QrWalletTransactionAdmin

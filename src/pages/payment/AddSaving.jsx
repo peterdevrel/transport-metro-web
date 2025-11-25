@@ -15,9 +15,14 @@ import { ClipLoader } from 'react-spinners'
 import Colors from '../../Utils/Colors'
 import VirtualAccountCard from '../../Components/VirtualAccountCard'
 import { useDedicatedVirtualContext } from '../../Contexts/DedicatedVirtualAccountContextProvider'
+import { useCustomer } from '../../Contexts/CustomerContextProvider'
 
 
 
+const arrayData = [
+  {label:'Saving', value: 'saving'},
+  {label:'Wallet', value: 'wallet'},
+]
 
 
 const AddSaving = () => {
@@ -80,6 +85,8 @@ const AddSaving = () => {
       } = useDedicatedVirtualContext();
     
 
+      const {getUserWallet} = useCustomer()
+
     const userId = localStorage.getItem('userId');
     const [isLoading, setIsLoading] = useState(false)
     const [isAgreed, setIsAgreed] = useState(false)
@@ -89,6 +96,7 @@ const AddSaving = () => {
     const [lessonitem, setLessonItem] = useState(null)
     const [paymentItem, setPaymentItem] = useState(null)
     const [duration, setDuration] = useState("")
+    const [typeArray, setTypeArray] = useState("")
 
      const [modalForm, setModalForm] = useState({
         title: "",
@@ -116,7 +124,8 @@ const AddSaving = () => {
         try {
           await Promise.all([
             getProfileUser(userId),
-            getCustomerDedicatedAccount()
+            getCustomerDedicatedAccount(),
+            getUserWallet()
         ]);
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -221,6 +230,53 @@ const handlePayment = () => {
           
       }, 2000)  
 }
+
+const fundWallet = () => {
+
+    setIsLoading(true)
+      setTimeout(() => {
+              
+          const paystack = new PaystackPop();
+          paystack.newTransaction({
+              key: import.meta.env.VITE_PUBLICK_KEY,
+              email: profiledata.email,
+              amount: totalAmountKobo,
+              label: 'Savings Checkout',
+              transaction_charge: transactionChargeKobo,
+              channels: ["card"],
+              metadata: {
+                  email: profiledata.email,
+                  custom_wallet: true,
+                  user_id: profiledata.id,
+                  amount: amount,
+                  description: description,
+                
+              },   
+              onSuccess: (transaction) => { 
+              //   console.log(transaction)
+              //   console.log(transaction.reference)
+                  toast.success(`Transaction Successful, RefId: ${transaction.reference}`)
+                  getAllSavingPaymentData()
+                  // navigate('/protected/dashboard')
+                   const modalEl = document.getElementById('staticBackdrop');
+                   const modal = bootstrap.Modal.getInstance(modalEl);
+                   modal.hide();
+              },
+              onCancel: () => {
+                  // user closed popup
+                  toast.warn('Payment Popup Closed')
+                  setIsLoading(false)
+              }
+          
+          })
+          setIsLoading(false)
+              
+          
+      }, 2000)  
+}
+
+
+
 
 
 const PaymentDetailModal = () => {
@@ -335,6 +391,23 @@ const AddModalPayment = () => {
 
                                <div className="row">
                                         {/* Amount */}
+
+                                         <div className="col-md-6">
+                                          <div className="form-group">
+                                          <label className="form-label">Funding Type</label>
+                                          <Dropdown
+                                              className="form-control text-dark"
+                                              width="100%"
+                                              options={arrayData}
+                                              value={typeArray}
+                                              onChange={(e) =>
+                                              setTypeArray(e.target.value)
+                                              }
+                                              placeholder={!isFocus ? "Type" : "..."}
+                                          />
+                                          </div>
+                                          </div>
+
                                         <div className="col-md-6">
                                           <div className="form-group">
                                             <label className="form-label">Amount to save</label>
@@ -376,12 +449,20 @@ const AddModalPayment = () => {
                                           Processing....
                                         </button>
                                       ) : (
+                                        typeArray === 'saving' ?
                                         <button
                                           type="button"
                                           onClick={() => handlePayment()}
                                           className="btn btn-primary w-50"
                                         >
-                                          Make Payment
+                                          Add Saving
+                                        </button>:
+                                        <button
+                                          type="button"
+                                          onClick={() => fundWallet()}
+                                          className="btn btn-primary w-50"
+                                        >
+                                          Fund Wallet
                                         </button>
                                       )}
                                     </div>
@@ -427,7 +508,7 @@ const AddModalPayment = () => {
 
 
 
-<ContainerTitle title={'Savings'}>
+<ContainerTitle title={'Add Fund'}>
 
 
           <div className="row g-3 mb-2">
@@ -451,7 +532,7 @@ const AddModalPayment = () => {
 
               <div className="d-flex justify-content-end">
                   <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                      Add Saving
+                      Add Funds
                   </button>
               </div>
               <div className="col-sm-12 mb-5 mt-5">

@@ -36,6 +36,7 @@ import CardDetailPage from "../pages/digitalid/CardDetailPage";
 // Context
 import { useAuthContext } from "../Contexts/UserContextProvider";
 import DisputeResolution from "../pages/digitalid/DisputeResolution";
+import QrWalletTransactionAdmin from "../pages/digitalid/QrWalletTransactionAdmin";
 
 function AppContent() {
   const location = useLocation();
@@ -90,6 +91,7 @@ function AppContent() {
         <Route path="/digital/user/list" element={userdata?.user_id ? <DigitalUserList /> : <Navigate to="/" replace />} />
         <Route path="/physical/card/application" element={userdata?.user_id ? <PhysicalCard /> : <Navigate to="/" replace />} />
         <Route path="/qr/payment/transaction" element={userdata?.user_id ? <QrWalletTransaction /> : <Navigate to="/" replace />} />
+        <Route path="/qr/payment/admin/transaction" element={userdata?.user_id ? <QrWalletTransactionAdmin /> : <Navigate to="/" replace />} />
         <Route path="/all/card/list" element={userdata?.user_id ? <AllPhysicalCardList /> : <Navigate to="/" replace />} />
         <Route path="/dispute/resolution" element={userdata?.user_id ? <DisputeResolution /> : <Navigate to="/" replace />} />
         <Route path="/card/:user_id" element={<CardDetailPage />} />

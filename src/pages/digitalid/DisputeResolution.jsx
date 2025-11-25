@@ -108,12 +108,12 @@ const submitDispute = async () => {
 
 return (
     <>
-  <ContainerTitle title={'Dispute Resolution Services'}>
+  <ContainerTitle title={'Dispute Resolution'}>
 
 
       <div className="row g-3 mb-4">
         <div className="col-3">
-          <WalletCard title="Dispute Resolution Service"/>
+          <WalletCard title="Dispute Resolution"/>
         </div>
         
     

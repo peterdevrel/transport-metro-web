@@ -26,7 +26,7 @@ import LecturerContextProvider from './Contexts/LecturerContextProvider'
 import CourseContextProvider from './Contexts/CourseContextProvider'
 import LibraryContextProvider from './Contexts/LibraryContextProvider'
 import PaymentContextProvider from './Contexts/PaymentContextProvider'
-import StackNavigation from "./navigation/StackNavigation";
+import StackNavigation from "./Navigation/StackNavigation";
 import TerminalContextProvider from "./Contexts/TerminalContextProvider";
 
 function App() {
