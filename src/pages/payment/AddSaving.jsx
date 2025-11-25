@@ -367,7 +367,7 @@ const AddModalPayment = () => {
     return (
         <div>
             <div className="modal" id="staticBackdrop" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-xl" role="document" style={{ maxWidth: '50%', height: '40vh' }}>
+                <div className="modal-dialog modal-xl" role="document" style={{ maxWidth: '50%', height: '70vh' }}>
                     <div className="modal-content" style={{ height: '100%' }}>
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Savings? </h5>
