@@ -7,7 +7,6 @@ import Dashboard from "../pages/Dashboard";
 import Transport from "../pages/Transport";
 import Service from "../pages/Service";
 import Settings from "../pages/Settings";
-import Support from '../Pages/Support';
 import VerifyDigitalID from '../Pages/digitalid/VerifyDIgitalID';
 import PayWithDigitalID from '../Pages/digitalid/PayWithDigitalID';
 import PhysicalCard from '../Pages/digitalid/PhysicalCard';
@@ -37,6 +36,7 @@ import CardDetailPage from "../pages/digitalid/CardDetailPage";
 import { useAuthContext } from "../Contexts/UserContextProvider";
 import DisputeResolution from "../pages/digitalid/DisputeResolution";
 import QrWalletTransactionAdmin from "../pages/digitalid/QrWalletTransactionAdmin";
+import Support from "../Pages/Support";
 
 function AppContent() {
   const location = useLocation();
