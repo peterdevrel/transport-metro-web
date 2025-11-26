@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContainerTitle } from '../Components/ContainerTitle'
+import { x } from '../Components/ContainerTitle'
 
 const Unauthorized = () => {
   return (
@@ -17,7 +17,7 @@ const Unauthorized = () => {
             <h2>SORRY!</h2>
             <h4 className="font-weight-light">
               The page you’re looking for was not found.
-            </h4>
+            </h4>x
             <p className="mt-3">
               Maybe check the URL or return to the homepage.
             </p>

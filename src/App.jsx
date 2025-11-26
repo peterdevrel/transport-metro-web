@@ -34,7 +34,7 @@ function App() {
 
   return (
     <>
-      <Toaster />
+    <Toaster />
     <UserContextProvider>
       <FarmContextProvider>
         <ExternalClientContextProvider>
