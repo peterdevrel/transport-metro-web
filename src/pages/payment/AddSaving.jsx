@@ -370,7 +370,7 @@ const AddModalPayment = () => {
                 <div className="modal-dialog modal-xl" role="document" style={{ maxWidth: '50%', height: '50vh' }}>
                     <div className="modal-content" style={{ height: '100%' }}>
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Savings? </h5>
+                            <h5 className="modal-title" id="exampleModalLabel">Add funds ? </h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
