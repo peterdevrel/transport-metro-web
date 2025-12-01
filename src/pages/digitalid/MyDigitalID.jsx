@@ -143,7 +143,7 @@ const MyDigitalID = () => {
                   }}
               >
                   <div style={{ marginBottom: '20px' }}>
-                  <QRCode value={digitalID.id_number || ''} size={200} />
+                  <QRCode value={digitalID.qr_token || ''} size={200} />
                   </div>
                   <p><strong>Name:</strong> {digitalID.full_name}</p>
                   <p><strong>Email:</strong> {digitalID.email}</p>
