@@ -88,12 +88,12 @@ const requestOtp = () => {
         .then(resp => resp.json())
         .then(data => {
           if(data.detail === 'Success Message'){
-            toast.success(data.detail)
+            alert(data.detail)
             setMessage(data.detail)
             setOtpVisible(true)
             setIsLoading(false)
           }else if(data.detail === 'Some Error Message'){
-            toast.warn('You are not authorized to perform this task')
+            alert('You are not authorized to perform this task')
             setIsLoading(false)
           }
         }).catch(error => {
@@ -108,7 +108,7 @@ const requestOtp = () => {
   }catch(error){
     if(error){
       setIsLoading(false)
-      toast.warn("Check your internet connection", error)
+      alert("Check your internet connection", error)
     }
   }
 }
@@ -129,6 +129,7 @@ const changePINWithOTP = () => {
         .then(resp => resp.json())
         .then(data => {
           if(data.success){
+            alert(data.success)
             toast.success(data.success)
             // navigate(-1)
             setEmailOtp("")
@@ -137,7 +138,7 @@ const changePINWithOTP = () => {
             setConfirmNumber("")
             setIsLoading(false)
           }else if(data.notmatch){
-            toast.warn(data.notmatch)
+            alert(data.notmatch)
             setIsLoading(false)
           }else if(data.detail){
             alert(data.detail)
