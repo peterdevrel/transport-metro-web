@@ -130,7 +130,7 @@ const changePINWithOTP = () => {
         .then(data => {
           if(data.success){
             alert(data.success)
-            toast.success(data.success)
+            // toast.success(data.success)
             // navigate(-1)
             setEmailOtp("")
             setOtp("")
