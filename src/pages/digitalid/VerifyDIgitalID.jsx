@@ -199,7 +199,7 @@ const VerifyDigitalID = () => {
                     {result.user && (
                       <>
                         <div style={{ marginBottom: '20px' }}>
-                        <QRCode value={result.qr_token || ''} size={200} />
+                        <QRCode value={result.id_number || ''} size={200} />
                         </div>
                         <p>Name: {result.user.full_name}</p>
                         <p>Email: {result.user.email}</p>
