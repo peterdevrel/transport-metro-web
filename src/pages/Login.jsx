@@ -55,13 +55,13 @@ export default function Login() {
 
 
 
-  if (isLoading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <ClipLoader color={Colors.WHITE} size={50} />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="d-flex justify-content-center align-items-center vh-100">
+  //       <ClipLoader color={Colors.WHITE} size={50} />
+  //     </div>
+  //   );
+  // }
 
 
 const onLogin = () => { 
