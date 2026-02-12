@@ -20,12 +20,15 @@ const ElectricityContextProvider = ({children}) => {
     
     const [ type, setType] = useState('')
     const [VerifyElectricityData, setVerifyElectricityData] = useState([])
-    const [ServiceElectricityData, setServiceElectricityData] = useState([])
+    const [ ServiceData, setServiceData,] = useState([])
+    const [ ServiceElectricityData, setServiceElectricityData] = useState([])
     const [verifyingData, setVerifyingData] = useState([])
     const [commission, setCommission] = useState([])
     const [querydata, setQueryData] = useState([])
     const [requestIddata, setRequestIdData] = useState("")
     const [billdata, setBillData] = useState([])
+    const [dataVariationData, setDataVariationData] = useState([])
+    const [airtimeServiceData, setAirtimeServiceData] = useState([])
   
   
    
@@ -118,6 +121,23 @@ const ElectricityContextProvider = ({children}) => {
     }
 
 
+  const purchaseData = (body) => {
+      try{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/purchase/data/`,{
+          method: 'POST',
+          credentials: 'include', 
+          headers:{
+              // 'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify(body)
+        })
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+
     const getQueryBillerByRequestId = (request_id) => {
       try{
         return fetch(`${import.meta.env.VITE_BASE_URL}service/query/electricity/${request_id}/`,{
@@ -162,6 +182,62 @@ const ElectricityContextProvider = ({children}) => {
                   })
                 }               
                 setServiceElectricityData(serviceArray)
+            })
+        } catch (error) {
+            console.log("Poor network connection", error)
+        }
+    }
+    
+    const getServiceData = () => {
+        try {
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/data-services/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${access}`
+                },
+            })
+            .then(response => response.json())
+            .then(res => { 
+                // console.log(res)
+                var count = Object.keys(res).length;
+                let serviceArray = []
+                for (var i = 0; i < count; i++){
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
+                  })
+                }               
+                setServiceData(serviceArray)
+            })
+        } catch (error) {
+            console.log("Poor network connection", error)
+        }
+    }
+    
+    const getAirtimeServiceData = () => {
+        try {
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/airtime-services/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${access}`
+                },
+            })
+            .then(response => response.json())
+            .then(res => { 
+                // console.log(res)
+                var count = Object.keys(res).length;
+                let serviceArray = []
+                for (var i = 0; i < count; i++){
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
+                  })
+                }               
+                setAirtimeServiceData(serviceArray)
             })
         } catch (error) {
             console.log("Poor network connection", error)
@@ -251,7 +327,55 @@ const ElectricityContextProvider = ({children}) => {
         }
       }
 
-   
+
+const getDataVariation = (serviceID) => {
+  try {
+    return fetch(
+      `${import.meta.env.VITE_BASE_URL}service/vtpass/data/variations/${serviceID}/`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((res) => {
+        // console.log("data", res.data);
+
+        let serviceArray = res.data.map((item) => ({
+          value: item?.variation_code,
+          label: item?.name,
+          amount: item?.amount,
+        }));
+
+        setDataVariationData(serviceArray);
+
+         
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  const purchaseAirtime = (body) => {
+      try{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/purchase/airtime/`,{
+          method: 'POST',
+          credentials: 'include', 
+          headers:{
+              // 'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify(body)
+        })
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+
   return (
     <ElectricityContext.Provider value={{
       CreateUtilityPayment,
@@ -259,8 +383,10 @@ const ElectricityContextProvider = ({children}) => {
         VerifyElectricityData, 
         setVerifyElectricityData,
         getVerifyElectricityMerchant,
-        ServiceElectricityData, setServiceElectricityData,
         getElectricityServiceData,
+        ServiceElectricityData, setServiceElectricityData,
+        ServiceData, setServiceData,
+        getServiceData,
         service, setService,
         billercodeNumber, setBillerCodeNumber,
         type, setType,
@@ -278,7 +404,13 @@ const ElectricityContextProvider = ({children}) => {
         billdata, setBillData,
         getUtilityPaymentByUserId,
         getCommission,
-        commission, setCommission
+        commission, setCommission,
+        purchaseData,
+        getDataVariation,
+        dataVariationData, setDataVariationData,
+        getAirtimeServiceData,
+        airtimeServiceData, setAirtimeServiceData,
+        purchaseAirtime
     }}>
 
       {children}

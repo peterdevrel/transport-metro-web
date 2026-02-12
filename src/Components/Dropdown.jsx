@@ -9,16 +9,16 @@ const Dropdown = ({ label, value, width, placeholder, className, options, onChan
         value={typeof value === 'string' || typeof value === 'number' ? value : ''}
         onChange={onChange}
       >
-
         <option value="" disabled>
           Select {placeholder}
         </option>
         {options?.map((option, index) => (
-          <option key={index} value={option?.value}>
+          <option key={`${option.value}-${index}`} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
+
     </div>
   );
 };

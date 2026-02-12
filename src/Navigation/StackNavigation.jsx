@@ -39,6 +39,7 @@ import DisputeResolution from "../pages/digitalid/DisputeResolution";
 import QrWalletTransactionAdmin from "../pages/digitalid/QrWalletTransactionAdmin";
 import UtilityPayment from "../pages/utility/UtilityPayment";
 import DataPayment from "../pages/data/DataPayment";
+import AirtimePayment from "../pages/airtime/AirtimePayment";
 
 function AppContent() {
   const location = useLocation();
@@ -111,6 +112,9 @@ function AppContent() {
 
         {/*Data Bill  */}
         <Route path="/data/bill" element={userdata?.user_id ? <DataPayment /> : <Navigate to="/" replace />} />
+
+        {/*Airtime Bill  */}
+        <Route path="/airtime/bill" element={userdata?.user_id ? <AirtimePayment /> : <Navigate to="/" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<ErrorScreen />} />

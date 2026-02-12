@@ -244,7 +244,9 @@ export default function Dashboard() {
                 📊 Data 
               </button>
 
-              <button className="btn w-100 text-start text-white"
+              <button 
+                onClick={() => navigate('/airtime/bill')}
+                className="btn w-100 text-start text-white"
                 style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
                 📊 Airtime 
               </button>
@@ -256,7 +258,7 @@ export default function Dashboard() {
 
               <button className="btn w-100 text-start text-white"
                 style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
-                📊 Internation Airtime 
+                📊 International Airtime 
               </button>
 
               <button className="btn w-100 text-start text-white"

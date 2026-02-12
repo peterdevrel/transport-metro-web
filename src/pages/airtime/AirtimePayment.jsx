@@ -23,7 +23,7 @@ const typedata = [
     {label: 'postpaid', value: 'postpaid'}
 ]
 
-const DataPayment = () => {
+const AirtimePayment = () => {
 
                
            
@@ -96,6 +96,9 @@ const DataPayment = () => {
         commission,
         getDataVariation,
         dataVariationData,
+        getAirtimeServiceData,
+        airtimeServiceData, 
+        purchaseAirtime
     } = useElectricity()
 
 
@@ -153,7 +156,7 @@ const DataPayment = () => {
             getProfileUser(userId),
             getCustomerDedicatedAccount(),
             getUserWallet(),
-            getServiceData(),
+            getAirtimeServiceData(),
             getBillerRequestId(),
             
         ]);
@@ -176,7 +179,7 @@ const DataPayment = () => {
     
 
 const handleChange = (event) => {
-  const selected = ServiceData.find(option => option.value === event.target.value);
+  const selected = airtimeServiceData.find(option => option.value === event.target.value);
   setService(selected);
 
   if (selected) {
@@ -214,51 +217,7 @@ const transactionChargeKobo = transactionCharge * 100;
 const totalAmountKobo = (baseAmount + transactionCharge) * 100;
 
 
-  const queryBillerRequest = () => {
-    const params = {
-      type,
-      billersCode: billercodeNumber,
-      serviceID: service?.value,
-    };
-  
-    if (!type || !billercodeNumber || !service?.value) {
-      toast.error("Form fields are empty");
-      return;
-    }
-  
-    
-    try {
-    setIsLoading(true);
-      getVerifyElectricityMerchant(params)
-        .then((resp) => resp.json())
-        .then((data) => {
-          console.log("Verification response:", data);
-  
-          const code = data.code || data.responseCode;
-  
-          if (code === "000" && data?.content?.Account_Number) {
-            setVerifyingData(data);
-            setShow(true);
-          } else {
-            const errorMsg =
-              data?.content?.error || "Verification failed. Please check your biller number.";
-            toast.error(errorMsg);
-            setShow(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Verification error:", error);
-          toast.error("Something went wrong. Please try again.");
-          setShow(false);
-        })
-        .finally(() => setIsLoading(false));
-    } catch (error) {
-      console.error("Unexpected error:", error.message);
-      toast.error("Unexpected error occurred.");
-      setIsLoading(false);
-      setShow(false);
-    }
-  };
+
   
 
 const register = () => {
@@ -271,15 +230,14 @@ const register = () => {
   const params = {
     request_id: generateRequestId(),
     serviceID: service.value,
-    variation_code: variationCode?.value,
-    amount: Math.round(variationCode.amount), // Convert kobo → Naira
+    amount: Math.round(amount), // Convert kobo → Naira
     phone: phone
   };
 
   setIsLoading(true);
 
   try {
-    purchaseData(params)
+    purchaseAirtime(params)
       .then(async (resp) => {
         const data = await resp.json();
 
@@ -433,20 +391,20 @@ const disabled = showPay
 
 
 
-<ContainerTitle title={'Buy Data'}>
+<ContainerTitle title={'Buy Airtime'}>
 
 
-          <div className="row g-3 mb-2">
+    <div className="row g-3 mb-2">
 
-              <div className="col-3">
-              <VirtualAccountCard
-                account_number={virtualdata?.account_number}
-                account_name={virtualdata?.account_name}
-                bank={virtualdata?.bank_name}
-                
-              />
-              
-            </div>
+        <div className="col-3">
+        <VirtualAccountCard
+        account_number={virtualdata?.account_number}
+        account_name={virtualdata?.account_name}
+        bank={virtualdata?.bank_name}
+        
+        />
+        
+    </div>
               
           
             <p>Welcome, {profiledata?.first_name} </p>
@@ -463,7 +421,7 @@ const disabled = showPay
                   // data-bs-toggle="modal" 
                   // data-bs-target="#staticBackdrop"
                   >
-                      Buy Data
+                      Buy Airtime
                   </button>
               </div>
               <div className="col-sm-12 mb-5 mt-5">
@@ -621,7 +579,7 @@ const disabled = showPay
                   }}
                 >
                   <h5 className="modal-title mb-0 text-black">
-                    {hasVerifiedData ? "Buy Data" : "Purchase Data"}
+                    {hasVerifiedData ? "Buy Airtime" : "Purchase Airtime"}
                   </h5>
                   <button
                     type="button"
@@ -646,34 +604,27 @@ const disabled = showPay
                           label="Select Service"
                           className="form-control"
                           width={100}
-                          options={ServiceData}
+                          options={airtimeServiceData}
                           value={service.value || ""}
                           onChange={handleChange}
                         />
                       </div>
 
-                      <div className="col-md-6">
-                        <label>Service</label>
-                        <Dropdown
-                          label="Select Service"
-                          className="form-control"
-                          width={100}
-                          options={dataVariationData}
-                          value={variationCode?.value || "" }
-                          onChange={handleVariationChange}
-                        />
-                      </div>
-                      <hr />
-                      {variationCode && (
-                        <div>
-                          <p className='text-black'><strong>Selected Service:</strong> {variationCode?.label}</p>
-                          <p className='text-black'><strong>Subscription Code:</strong> {variationCode?.value}</p>
-                          <p className='text-black'><strong>Amount:</strong> {currencyFormat(variationCode?.amount)}</p>
-                        </div>
-                      )}
 
 
                       <div className="row">
+
+
+                        <div className="col-md-6 mb-3">
+                        <label>Amount</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="Enter Amount"
+                        />
+                        </div>
                         
                         <div className="col-md-6 mb-3">
                           <label>Phone</label>
@@ -786,4 +737,4 @@ const disabled = showPay
   )
 }
 
-export default DataPayment
+export default AirtimePayment
