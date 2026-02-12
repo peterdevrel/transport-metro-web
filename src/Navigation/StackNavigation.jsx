@@ -37,6 +37,8 @@ import CardDetailPage from "../pages/digitalid/CardDetailPage";
 import { useAuthContext } from "../Contexts/UserContextProvider";
 import DisputeResolution from "../pages/digitalid/DisputeResolution";
 import QrWalletTransactionAdmin from "../pages/digitalid/QrWalletTransactionAdmin";
+import UtilityPayment from "../pages/utility/UtilityPayment";
+import DataPayment from "../pages/data/DataPayment";
 
 function AppContent() {
   const location = useLocation();
@@ -103,6 +105,12 @@ function AppContent() {
 
         {/* User Management */}
         <Route path="/user/manager" element={userdata?.user_id ? <UserManager /> : <Navigate to="/" replace />} />
+
+        {/*Utility Bill  */}
+        <Route path="/utility/bill" element={userdata?.user_id ? <UtilityPayment /> : <Navigate to="/" replace />} />
+
+        {/*Data Bill  */}
+        <Route path="/data/bill" element={userdata?.user_id ? <DataPayment /> : <Navigate to="/" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<ErrorScreen />} />

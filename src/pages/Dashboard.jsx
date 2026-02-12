@@ -230,6 +230,40 @@ export default function Dashboard() {
                 📊 Investments
               </button>
 
+              <button 
+                onClick={() => navigate('/utility/bill')}
+                className="btn w-100 text-start text-white"
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Utility Bill
+              </button>
+
+              <button 
+                onClick={() => navigate('/data/bill')}
+                className="btn w-100 text-start text-white"
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Data 
+              </button>
+
+              <button className="btn w-100 text-start text-white"
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Airtime 
+              </button>
+
+              <button className="btn w-100 text-start text-white"
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Education 
+              </button>
+
+              <button className="btn w-100 text-start text-white"
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Internation Airtime 
+              </button>
+
+              <button className="btn w-100 text-start text-white"
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 TV Subscription 
+              </button>
+
             </div>
           </div>
 

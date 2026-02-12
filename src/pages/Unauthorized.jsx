@@ -1,5 +1,4 @@
 import React from 'react'
-import { x } from '../Components/ContainerTitle'
 
 const Unauthorized = () => {
   return (

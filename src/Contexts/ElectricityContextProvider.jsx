@@ -50,7 +50,7 @@ const ElectricityContextProvider = ({children}) => {
     
     const getUtilityPaymentByUserId = (userId) => {
       try{
-        return fetch(`${import.meta.env.VITE_BASE_URL}v/get/bill/invoice/${userId}/`,{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/get/bill/invoice/${userId}/`,{
           method: 'GET',
           credentials:'include',
           headers: {
@@ -86,7 +86,7 @@ const ElectricityContextProvider = ({children}) => {
 
     const getVerifyElectricityMerchant = (body) => {
       try{
-        return fetch(`${import.meta.env.VITE_BASE_URL}v/verify-electricity-merchant/`,{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/verify-electricity-merchant/`,{
           method: 'POST',
           credentials: 'include',      
           headers:{
@@ -103,7 +103,7 @@ const ElectricityContextProvider = ({children}) => {
 
   const purchaseElectricity = (body) => {
       try{
-        return fetch(`${import.meta.env.VITE_BASE_URL}v/purchase/electricity/`,{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/purchase/electricity/`,{
           method: 'POST',
           credentials: 'include', 
           headers:{
@@ -120,7 +120,7 @@ const ElectricityContextProvider = ({children}) => {
 
     const getQueryBillerByRequestId = (request_id) => {
       try{
-        return fetch(`${import.meta.env.VITE_BASE_URL}v/query/electricity/${request_id}/`,{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/query/electricity/${request_id}/`,{
           method: 'POST',
           credentials: 'include',
           headers:{
@@ -142,7 +142,7 @@ const ElectricityContextProvider = ({children}) => {
     
     const getElectricityServiceData = () => {
         try {
-            return fetch(`${import.meta.env.VITE_BASE_URL}v/api/electricity/service/`,{
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/electricity-services/`,{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -154,15 +154,14 @@ const ElectricityContextProvider = ({children}) => {
             .then(res => { 
                 // console.log(res)
                 var count = Object.keys(res).length;
-                let currencyArray = []
+                let serviceArray = []
                 for (var i = 0; i < count; i++){
-                    currencyArray.push({
-                    value: res[i].service_id,
-                    label: res[i].name,
-                    subaccount: res[1].subaccount
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
                   })
                 }               
-                setServiceElectricityData(currencyArray)
+                setServiceElectricityData(serviceArray)
             })
         } catch (error) {
             console.log("Poor network connection", error)
