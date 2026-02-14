@@ -279,7 +279,7 @@ useEffect(() => {
   
 
 const register = () => {
-  if (!totalAmountKobo || !phone || !userId) {
+  if (!phone || !userId) {
     toast.warn("Form fields are empty");
     setIsLoading(false);
     return;
