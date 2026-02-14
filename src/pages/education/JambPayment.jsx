@@ -19,11 +19,11 @@ const arrayData = [
 ]
 
 const typedata = [
-    {label: 'prepaid', value: 'prepaid'},
-    {label: 'postpaid', value: 'postpaid'}
+    {label: 'Select', value: 'Select'},
+    {label: 'Jamb', value: 'jamb'},
 ]
 
-const DataPayment = () => {
+const JambPayment = () => {
 
                
            
@@ -96,6 +96,9 @@ const DataPayment = () => {
         commission,
         getDataVariation,
         dataVariationData,
+        getEducationServiceData,
+        educationServiceData,
+        purchaseEducationalPin
     } = useElectricity()
 
 
@@ -155,7 +158,7 @@ const DataPayment = () => {
             getUserWallet(),
             getServiceData(),
             getBillerRequestId(),
-            
+            getEducationServiceData()
         ]);
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -176,7 +179,7 @@ const DataPayment = () => {
     
 
 const handleChange = (event) => {
-  const selected = ServiceData.find(option => option.value === event.target.value);
+  const selected = educationServiceData.find(option => option.value === event.target.value);
   setService(selected);
 
   if (selected) {
@@ -193,7 +196,7 @@ const handleChange = (event) => {
     setVariationCode(selected || null)  
   }
 
-const baseAmount = Number(amount); // electricity purchase amount
+const baseAmount = Number(variationCode?.amount); // electricity purchase amount
 
 let transactionCharge = 0;
 
@@ -216,12 +219,12 @@ const totalAmountKobo = (baseAmount + transactionCharge) * 100;
 
   const queryBillerRequest = () => {
     const params = {
-      type,
+      type: variationCode?.value,
       billersCode: billercodeNumber,
       serviceID: service?.value,
     };
   
-    if (!type || !billercodeNumber || !service?.value) {
+    if (!variationCode.value || !billercodeNumber || !service?.value) {
       toast.error("Form fields are empty");
       return;
     }
@@ -236,7 +239,7 @@ const totalAmountKobo = (baseAmount + transactionCharge) * 100;
   
           const code = data.code || data.responseCode;
   
-          if (code === "000" && data?.content?.Account_Number) {
+          if (code === "000" && data?.content?.Customer_Account_Type) {
             setVerifyingData(data);
             setShow(true);
           } else {
@@ -271,15 +274,16 @@ const register = () => {
   const params = {
     request_id: generateRequestId(),
     serviceID: service.value,
+    billersCode: billercodeNumber,
     variation_code: variationCode?.value,
-    amount: Math.round(variationCode.amount), // Convert kobo → Naira
+    amount: Math.round(variationCode?.amount), // Convert kobo → Naira
     phone: phone
   };
 
   setIsLoading(true);
 
   try {
-    purchaseData(params)
+    purchaseEducationalPin(params)
       .then(async (resp) => {
         const data = await resp.json();
 
@@ -294,6 +298,7 @@ const register = () => {
           setService("")
           setPhone("")
           setVariationCode("")
+          setVerifyingData([])
         } else {
           console.error("Payment failed:", data);
           toast.error(data.response_description || "Payment failed");
@@ -423,7 +428,7 @@ const PaymentDetailModal = () => {
 
 
 const disabled = showPay
-  const hasVerifiedData = verifyingData?.content?.Account_Number;
+const hasVerifiedData = verifyingData?.content?.Customer_Account_Type;
 
   return (
     <>
@@ -433,7 +438,7 @@ const disabled = showPay
 
 
 
-<ContainerTitle title={'Buy Data'}>
+<ContainerTitle title={'Buy Educational Pins'}>
 
 
           <div className="row g-3 mb-2">
@@ -463,7 +468,7 @@ const disabled = showPay
                   // data-bs-toggle="modal" 
                   // data-bs-target="#staticBackdrop"
                   >
-                      Buy Data
+                      Buy Education Pins
                   </button>
               </div>
               <div className="col-sm-12 mb-5 mt-5">
@@ -638,72 +643,148 @@ const disabled = showPay
               <div className="modal-body" style={{ overflowY: "auto" }}>
                 <div className="container-fluid">
                   
-                  {/* =================== INITIAL PAYMENT FORM =================== */}
+                      {/* =================== INITIAL PAYMENT FORM =================== */}
              
+                       {!hasVerifiedData && (
+                        <>
+                        <div className="col-md-6">
+                          <label>Service</label>
+                          <Dropdown
+                            label="Select Service"
+                            className="form-control"
+                            width={100}
+                            options={typedata}
+                            value={service.value || ""}
+                            onChange={handleChange}
+                          />
+                        </div>
 
-                      <div className="col-md-6">
-                        <label>Service</label>
-                        <Dropdown
-                          label="Select Service"
-                          className="form-control"
-                          width={100}
-                          options={ServiceData}
-                          value={service.value || ""}
-                          onChange={handleChange}
-                        />
-                      </div>
+                        <div className="col-md-6">
+                          <label>Service</label>
+                          <Dropdown
+                            label="Select Service"
+                            className="form-control"
+                            width={100}
+                            options={dataVariationData}
+                            value={variationCode?.value || "" }
+                            onChange={handleVariationChange}
+                          />
+                        </div>
+                        <hr />
+                        {variationCode && (
+                          <div>
+                            <p className='text-black'><strong>Selected Service:</strong> {variationCode?.label}</p>
+                            <p className='text-black'><strong>Subscription Code:</strong> {variationCode?.value}</p>
+                            <p className='text-black'><strong>Amount:</strong> {currencyFormat(variationCode?.amount)}</p>
+                          </div>
+                        )}
+ 
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>Jamb Profile ID</label>
+                              <input
+                                type="text"
+                                className="form-control text-dark"
+                                value={billercodeNumber}
+                                onChange={(e) => setBillerCodeNumber(e.target.value)}
+                                placeholder="Jamb Profile ID number"
+                              />
+                              {error && billercodeNumber.length <= 0 && (
+                                <label className="text-danger mt-2">
+                                  Biller code field is empty
+                                </label>
+                              )}
+                            </div>
+                          </div>
+                         
+                         <div className="col-12" style={{ marginTop: 50 }}>
+                          <button
+                            type="submit"
+                            onClick={queryBillerRequest}
+                            className="btn btn-success btn-block mr-2"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                        </>
+                      )}
 
-                      <div className="col-md-6">
-                        <label>Service</label>
-                        <Dropdown
-                          label="Select Service"
-                          className="form-control"
-                          width={100}
-                          options={dataVariationData}
-                          value={variationCode?.value || "" }
-                          onChange={handleVariationChange}
-                        />
-                      </div>
-                      <hr />
-                      {variationCode && (
-                        <div>
-                          <p className='text-black'><strong>Selected Service:</strong> {variationCode?.label}</p>
-                          <p className='text-black'><strong>Subscription Code:</strong> {variationCode?.value}</p>
-                          <p className='text-black'><strong>Amount:</strong> {currencyFormat(variationCode?.amount)}</p>
+                       {/* =================== Meter Verified / Payment Section =================== */}
+                      {hasVerifiedData && !showPay && (
+                        <div className="row justify-content-center mt-4">
+                          <div className="col-md-8 col-lg-7 grid-margin stretch-card">
+                            <div className="card shadow-lg border-0" style={{ borderRadius: "16px" }}>
+                              <div className="card-body">
+                                <h4 className="text-success mb-2">⚡ Jamb Verified Successfully</h4>
+                                <p className="text-muted mb-4">
+                                  Please confirm details before proceeding with payment.
+                                </p>
+    
+                                {/* Info Grid */}
+                                <div className="row mb-3">
+                                  <div className="col-md-6">
+                                    <strong>Biller Code:</strong> {billercodeNumber}
+                                  </div>
+                                  <div className="col-md-6">
+                                    <strong>Service ID:</strong> {service?.value}
+                                  </div>
+                                  <div className="col-md-6">
+                                    <strong>Biller Type:</strong> {variationCode?.value}
+                                  </div>
+                                  <div className="col-md-6">
+                                    <strong>Account Number:</strong> {verifyingData?.content?.Customer_Account_Type}
+                                  </div>
+                                  <div className="col-md-6">
+                                    <strong>Customer Name:</strong> {verifyingData?.content?.Customer_Name}
+                                  </div>
+                                </div>
+    
+                                <hr />
+    
+                                {/* Payment Form */}
+                                <div className="row">
+                                  <div className="col-md-6 mb-3">
+                                    <label>Phone</label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      value={phone}
+                                      onChange={(e) => setPhone(e.target.value)}
+                                      placeholder="Enter Phone Number"
+                                    />
+                                  </div>
+                                </div>
+    
+                                {/* Payment Button */}
+                                <div className="text-center">
+                                  {isLoading ? (
+                                    <button className="btn btn-success">
+                                      Payment in progress...
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="btn btn-success"
+                                      onClick={async () => {
+                                        const data = await register();
+                                        if (data?.code === "000") {
+                                          setCustomerData(data);
+                                          setShow(false); // Close first modal
+                                          setShowPay(true); // Open success modal
+                                          toast.success("Payment received");
+                                        }
+                                      }}
+                                    >
+                                      Pay Now {currencyFormat(variationCode?.amount)}
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
 
-
-                      <div className="row">
-                        
-                        <div className="col-md-6 mb-3">
-                          <label>Phone</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            placeholder="Enter Phone Number"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-12 mt-4">
-                        {isLoading ?
-                        <button
-                          className="btn btn-success btn-block"
-                        >
-                          Processing...
-                        </button>
-                        :
-                        <button
-                          className="btn btn-success btn-block"
-                          onClick={register}
-                        >
-                          Purchase
-                        </button>
-                      }
-                      </div>
                     </div>
          
                 </div>
@@ -744,7 +825,7 @@ const disabled = showPay
             <h5 className="text-success">Payment Successful</h5>
             <p>
               Payment of <strong>{currencyFormat(customerData.amount)}</strong> has been debited
-              from your wallet for the subscription of <strong>{customerData.content.transactions.product_name}</strong>.
+              from your wallet for <strong>{customerData.content.transactions.product_name}</strong>.
             </p>
 
             <div className="d-flex justify-content-center gap-3 mt-4">
@@ -787,4 +868,4 @@ const disabled = showPay
   )
 }
 
-export default DataPayment
+export default JambPayment

@@ -417,9 +417,10 @@ const AddModalPayment = () => {
           <div
             className="modal-dialog modal-xl"
             style={{
-              maxWidth: "50%",
-              height: "80vh",
-              overflowY: "auto",
+                width: "600px", // fixed width, adjust as needed
+                maxWidth: "90%", // responsive fallback for small screens
+                height: "80vh",
+                overflowY: "auto",
             }}
           >
             <div className="modal-content" style={{ height: "100%" }}>
@@ -962,22 +963,22 @@ const disabled = showPay
                                 <strong>Biller Code:</strong> {billercodeNumber}
                               </div>
                               <div className="col-md-6">
-                                <strong>Service ID:</strong> {service.value}
+                                <strong>Service ID:</strong> {service?.value}
                               </div>
                               <div className="col-md-6">
                                 <strong>Biller Type:</strong> {type}
                               </div>
                               <div className="col-md-6">
-                                <strong>Account Number:</strong> {verifyingData.content.Account_Number}
+                                <strong>Account Number:</strong> {verifyingData?.content?.Account_Number}
                               </div>
                               <div className="col-md-6">
-                                <strong>Customer Name:</strong> {verifyingData.content.Customer_Name}
+                                <strong>Customer Name:</strong> {verifyingData?.content?.Customer_Name}
                               </div>
                               <div className="col-md-6">
-                                <strong>Meter Number:</strong> {verifyingData.content.Meter_Number}
+                                <strong>Meter Number:</strong> {verifyingData?.content?.Meter_Number}
                               </div>
                               <div className="col-12">
-                                <strong>Address:</strong> {verifyingData.content.Address}
+                                <strong>Address:</strong> {verifyingData?.content?.Address}
                               </div>
                             </div>
 

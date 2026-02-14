@@ -29,6 +29,13 @@ const ElectricityContextProvider = ({children}) => {
     const [billdata, setBillData] = useState([])
     const [dataVariationData, setDataVariationData] = useState([])
     const [airtimeServiceData, setAirtimeServiceData] = useState([])
+    const [educationServiceData, setEducationServiceData] = useState([])
+    const [allCountryAirtimeData, setAllCountryAirtimeData] = useState([])
+    const [productTypeData, setProductTypeData] = useState([])
+    const [operatorData, setOperatorData] = useState([])
+    const [internationalVariationData, setInternationalVariationData] = useState([])
+    const [internationalServiceData, setInternationalServiceData] = useState([])
+
   
   
    
@@ -342,7 +349,7 @@ const getDataVariation = (serviceID) => {
     )
       .then((response) => response.json())
       .then((res) => {
-        // console.log("data", res.data);
+        console.log("data", res.data);
 
         let serviceArray = res.data.map((item) => ({
           value: item?.variation_code,
@@ -373,6 +380,211 @@ const getDataVariation = (serviceID) => {
       }catch(error){
         console.log(error)
       }
+    }
+
+      const getEducationServiceData = () => {
+        try {
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/educational-services/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${access}`
+                },
+            })
+            .then(response => response.json())
+            .then(res => { 
+                // console.log(res)
+                var count = Object.keys(res).length;
+                let serviceArray = []
+                for (var i = 0; i < count; i++){
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
+                  })
+                }               
+                setEducationServiceData(serviceArray)
+            })
+        } catch (error) {
+            console.log("Poor network connection", error)
+        }
+    }
+
+     const purchaseEducationalPin = (body) => {
+      try{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/purchase/education/`,{
+          method: 'POST',
+          credentials: 'include', 
+          headers:{
+              // 'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify(body)
+        })
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+
+  const getAllCountries = () => {
+      fetch(`${import.meta.env.VITE_BASE_URL}service/airtime/countries/`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((res) => {
+          // console.log(res);
+
+          const countries = res?.content?.countries || [];
+
+          const serviceArray = countries.map((country) => ({
+            value: country.code,
+            label: `${country.name} (${country.currency})`,
+            flag: country.flag,
+            prefix: country.prefix,
+            currency: country.currency,
+          }));
+
+          setAllCountryAirtimeData(serviceArray);
+        })
+        .catch((error) => {
+          console.log("Poor network connection", error);
+        });
+  };
+
+
+const getProductTypeData = async (countryCode) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}service/international/product-types/?code=${countryCode}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const res = await response.json();
+
+    console.log("data", res);
+
+    // Make sure res.content exists before mapping
+    if (!res.content) return;
+
+    const productTypes = res.content.map((item) => ({
+      value: item.product_type_id,
+      label: item.name,
+    }));
+
+    setProductTypeData(productTypes);
+  } catch (error) {
+    console.error("Error fetching product types:", error);
+  }
+};
+
+
+const getOperatorData = async (countryCode, productTypeId) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}service/international/operators/?code=${countryCode}&product_type_id=${productTypeId}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const res = await response.json();
+
+    console.log("Operators API response:", res);
+
+    // Make sure res.content exists and is an array
+    if (!res.content || !Array.isArray(res.content)) {
+      setOperatorData([]);
+      return;
+    }
+
+    // Map to dropdown format
+    const operators = res.content.map((item) => ({
+      value: item.operator_id.toString(), // convert to string for <select>
+      label: item.name,
+    }));
+
+    setOperatorData(operators);
+
+  } catch (error) {
+    console.error("Error fetching operators:", error);
+    setOperatorData([]);
+  }
+};
+
+
+const getVariationData = async (operatorId, productTypeId) => {
+  try {
+    if (!operatorId || !productTypeId) return;
+
+    const response = await fetch(
+      `${import.meta.env.VITE_BASE_URL}service/international/variation-codes/?serviceID=foreign-airtime&operator_id=${operatorId}&product_type_id=${productTypeId}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const res = await response.json();
+    console.log("Variation API response:", res);
+
+    if (!res.content?.variations || !Array.isArray(res.content.variations)) {
+      setInternationalVariationData([]);
+      return;
+    }
+
+    // Map to dropdown format
+    const variations = res.content.variations.map((item) => ({
+      value: item.variation_code,   // required for purchase
+      label: item.name,             // display name
+      amount: item.variation_amount // optional for display
+    }));
+
+    setInternationalVariationData(variations);
+  } catch (error) {
+    console.error("Error fetching variations:", error);
+    setInternationalVariationData([]);
+  }
+};
+
+
+   const getInternationService = () => {
+        try {
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/international-services/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${access}`
+                },
+            })
+            .then(response => response.json())
+            .then(res => { 
+                // console.log(res)
+                var count = Object.keys(res).length;
+                let serviceArray = []
+                for (var i = 0; i < count; i++){
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
+                  })
+                }               
+                setInternationalServiceData(serviceArray)
+            })
+        } catch (error) {
+            console.log("Poor network connection", error)
+        }
     }
 
 
@@ -410,7 +622,21 @@ const getDataVariation = (serviceID) => {
         dataVariationData, setDataVariationData,
         getAirtimeServiceData,
         airtimeServiceData, setAirtimeServiceData,
-        purchaseAirtime
+        purchaseAirtime,
+        getEducationServiceData,
+        educationServiceData, setEducationServiceData,
+        purchaseEducationalPin,
+        getAllCountries,
+        allCountryAirtimeData, setAllCountryAirtimeData,
+        getProductTypeData,
+        productTypeData, setProductTypeData,
+        getOperatorData,
+        operatorData, setOperatorData,
+        getVariationData,
+        internationalVariationData, setInternationalVariationData,
+        getInternationService,
+        internationalServiceData, setInternationalServiceData
+
     }}>
 
       {children}

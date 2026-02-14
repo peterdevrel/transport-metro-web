@@ -40,6 +40,9 @@ import QrWalletTransactionAdmin from "../pages/digitalid/QrWalletTransactionAdmi
 import UtilityPayment from "../pages/utility/UtilityPayment";
 import DataPayment from "../pages/data/DataPayment";
 import AirtimePayment from "../pages/airtime/AirtimePayment";
+import EducationPayment from "../pages/education/EducationPayment";
+import JambPayment from "../pages/education/JambPayment";
+import InternationalAirtime from "../pages/airtime/InternationalAirtime";
 
 function AppContent() {
   const location = useLocation();
@@ -115,6 +118,11 @@ function AppContent() {
 
         {/*Airtime Bill  */}
         <Route path="/airtime/bill" element={userdata?.user_id ? <AirtimePayment /> : <Navigate to="/" replace />} />
+        <Route path="/international/airtime/bill" element={userdata?.user_id ? <InternationalAirtime /> : <Navigate to="/" replace />} />
+
+        {/*Education Bill  */}
+        <Route path="/education/payment" element={userdata?.user_id ? <EducationPayment /> : <Navigate to="/" replace />} />
+        <Route path="/jamb/payment" element={userdata?.user_id ? <JambPayment /> : <Navigate to="/" replace />} />
 
         {/* Fallback */}
         <Route path="*" element={<ErrorScreen />} />

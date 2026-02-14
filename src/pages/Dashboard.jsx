@@ -251,12 +251,23 @@ export default function Dashboard() {
                 📊 Airtime 
               </button>
 
-              <button className="btn w-100 text-start text-white"
+              <button 
+                className="btn w-100 text-start text-white"
+                onClick={() => navigate('/education/payment')}
                 style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
                 📊 Education 
               </button>
 
-              <button className="btn w-100 text-start text-white"
+              <button 
+                className="btn w-100 text-start text-white"
+                onClick={() => navigate('/jamb/payment')}
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Jamb  
+              </button>
+
+              <button 
+                className="btn w-100 text-start text-white"
+                onClick={() => navigate('/international/airtime/bill')}
                 style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
                 📊 International Airtime 
               </button>

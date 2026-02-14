@@ -554,7 +554,8 @@ const disabled = showPay
             <div
               className="modal-dialog modal-xl"
               style={{
-                maxWidth: "50%",
+                width: "600px", // fixed width, adjust as needed
+                maxWidth: "90%", // responsive fallback for small screens
                 height: "80vh",
                 overflowY: "auto",
               }}

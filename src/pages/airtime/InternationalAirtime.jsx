@@ -23,7 +23,7 @@ const typedata = [
     {label: 'postpaid', value: 'postpaid'}
 ]
 
-const DataPayment = () => {
+const InternationalAirtime = () => {
 
                
            
@@ -38,14 +38,6 @@ const DataPayment = () => {
       } = useAuthContext()
     
     
-
-
-    const {
-        leveldata,
-        // getLevelSetupData,
-        level, setLevel,
-        addDuration
-    } = useRegister()
 
 
 
@@ -66,10 +58,6 @@ const DataPayment = () => {
     } = usePayment()
 
     const {
-        getAllBookCategoryData,  
-        libraryCategoryData, 
-        getAllBookData,
-        librarybookdata,
         formatTimeStamp,
     } = useLibrary()
 
@@ -96,6 +84,20 @@ const DataPayment = () => {
         commission,
         getDataVariation,
         dataVariationData,
+        getAirtimeServiceData,
+        airtimeServiceData, 
+        purchaseAirtime,
+        getAllCountries,
+        allCountryAirtimeData,
+        getProductTypeData,
+        productTypeData,
+        getOperatorData,
+        operatorData,
+        getVariationData,
+        internationalVariationData,
+        setInternationalVariationData,
+        getInternationService,
+        internationalServiceData,
     } = useElectricity()
 
 
@@ -124,16 +126,12 @@ const DataPayment = () => {
     const [customerData,setCustomerData] = useState([])
     const [showPay, setShowPay] = useState(false)
     const [variationCode, setVariationCode] = useState([])
+    const [countries, setCountries] = useState([])
+    const [productType, setProductType] = useState([])
+    const [operator, setOperator] = useState([])
+    const [variation, setVariation] = useState([])
 
-     const [modalForm, setModalForm] = useState({
-        title: "",
-        author: "",
-        description: "",
-        category_id: "",     // boolean
-        available_copies: "",     // boolean
-        cover_image: "",     // boolean
-    })
-
+    
     
       
     useEffect(() => {
@@ -153,8 +151,9 @@ const DataPayment = () => {
             getProfileUser(userId),
             getCustomerDedicatedAccount(),
             getUserWallet(),
-            getServiceData(),
+            getAirtimeServiceData(),
             getBillerRequestId(),
+        
             
         ]);
     } catch (error) {
@@ -166,7 +165,10 @@ const DataPayment = () => {
 
       
       // getLevelSetupData()
+      getAllCountries()
       getAllSavingPaymentData()
+      getInternationService()
+      getVariationData()
       fetchAllData();
     }, []);
 
@@ -175,90 +177,105 @@ const DataPayment = () => {
   const virtualdata = virtualaccountdata?.[0];
     
 
+
 const handleChange = (event) => {
-  const selected = ServiceData.find(option => option.value === event.target.value);
+  const selected = internationalServiceData.find(option => option.value === event.target.value);
   setService(selected);
-
-  if (selected) {
-    getDataVariation(selected.value);  // use the new selection immediately
-  }
-
-  // Also reset variation selection
-  setVariationCode(null);
 };
 
 
-  const handleVariationChange = (event) => {
-    const selected = dataVariationData.find(option => option.value === event.target.value);
-    setVariationCode(selected || null)  
+
+const handleCountriesChange = (event) => {
+  const selectedValue = event.target.value; // string from <select>
+  
+  const selected = allCountryAirtimeData.find(
+    (option) => option.value === selectedValue
+  );
+
+  if (!selected) {
+    console.warn("Selected country not found in dropdown:", selectedValue);
+    setCountries(null);
+    setProductType(null); // reset child
+    return;
   }
 
-const baseAmount = Number(amount); // electricity purchase amount
+  setCountries(selected);
+  setProductType(null); // reset child dropdown
 
-let transactionCharge = 0;
+  console.log("Selected country code:", selected.value); // debug
 
-// ⚡ Electricity Commission Rule
-if (baseAmount < 5000) {
-    transactionCharge = 100;
-} else {
-    transactionCharge = 150;
-}
-
-// 💰 Cap if over ₦200,000
-if (baseAmount >= 200000) {
-    transactionCharge = 3000;
-}
-
-// ✅ Convert to kobo
-const transactionChargeKobo = transactionCharge * 100;
-const totalAmountKobo = (baseAmount + transactionCharge) * 100;
+  // Only call API if we have a valid country code
+  if (selected.value) {
+    getProductTypeData(selected.value);
+  }
+};
 
 
-  const queryBillerRequest = () => {
-    const params = {
-      type,
-      billersCode: billercodeNumber,
-      serviceID: service?.value,
-    };
-  
-    if (!type || !billercodeNumber || !service?.value) {
-      toast.error("Form fields are empty");
-      return;
-    }
-  
-    
-    try {
-    setIsLoading(true);
-      getVerifyElectricityMerchant(params)
-        .then((resp) => resp.json())
-        .then((data) => {
-          console.log("Verification response:", data);
-  
-          const code = data.code || data.responseCode;
-  
-          if (code === "000" && data?.content?.Account_Number) {
-            setVerifyingData(data);
-            setShow(true);
-          } else {
-            const errorMsg =
-              data?.content?.error || "Verification failed. Please check your biller number.";
-            toast.error(errorMsg);
-            setShow(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Verification error:", error);
-          toast.error("Something went wrong. Please try again.");
-          setShow(false);
-        })
-        .finally(() => setIsLoading(false));
-    } catch (error) {
-      console.error("Unexpected error:", error.message);
-      toast.error("Unexpected error occurred.");
-      setIsLoading(false);
-      setShow(false);
-    }
-  };
+const handleProductChange = (event) => {
+  const selectedValue = event.target.value;
+
+  const selected = productTypeData.find(
+    (option) => option.value.toString() === selectedValue // convert to string
+  );
+
+  setProductType(selected || null);
+
+  // Reset child dropdowns
+//   setOperatorData([]);
+//   setVariationData([]);
+
+  console.log("Selected product type:", selected);
+};
+
+
+
+const handleOperatorChange = (event) => {
+  const selectedValue = event.target.value;
+
+  const selected = operatorData.find(
+    (op) => op.value === selectedValue
+  );
+
+  setOperator(selected || null);
+
+  // Reset dependent variation dropdown
+//   setVariationData([]);
+//   setVariation(null);
+
+  console.log("Selected operator:", selected);
+};
+
+const handleVariationChange = (event) => {
+  const selectedValue = event.target.value;
+
+  const selected = internationalVariationData.find(
+    (v) => v.value === selectedValue
+  );
+
+  setVariation(selected || null);
+
+  console.log("Selected variation:", selected);
+};
+
+
+useEffect(() => {
+  if (countries?.value && productType?.value) {
+    getOperatorData(countries.value, productType.value);
+  }
+}, [countries, productType]);
+
+useEffect(() => {
+  if (operator?.value && productType?.value) {
+    getVariationData(operator.value, productType.value);
+  } else {
+    setInternationalVariationData([]); // reset if dependencies not ready
+    setVariation(null);
+  }
+}, [operator, productType]);
+
+
+
+
   
 
 const register = () => {
@@ -271,15 +288,20 @@ const register = () => {
   const params = {
     request_id: generateRequestId(),
     serviceID: service.value,
-    variation_code: variationCode?.value,
-    amount: Math.round(variationCode.amount), // Convert kobo → Naira
-    phone: phone
+    billerCode:phone,
+    variation_code: variation?.value,
+    amount: Math.round(amount), // Convert kobo → Naira
+    operator_id: operator.value,
+    country_code: countries.value,
+    phone:phone,
+    product_type_id: productType.value,
+    email:profiledata.email,
   };
 
   setIsLoading(true);
 
   try {
-    purchaseData(params)
+    purchaseAirtime(params)
       .then(async (resp) => {
         const data = await resp.json();
 
@@ -433,20 +455,20 @@ const disabled = showPay
 
 
 
-<ContainerTitle title={'Buy Data'}>
+<ContainerTitle title={'International Airtime'}>
 
 
-          <div className="row g-3 mb-2">
+    <div className="row g-3 mb-2">
 
-              <div className="col-3">
-              <VirtualAccountCard
-                account_number={virtualdata?.account_number}
-                account_name={virtualdata?.account_name}
-                bank={virtualdata?.bank_name}
-                
-              />
-              
-            </div>
+        <div className="col-3">
+        <VirtualAccountCard
+            account_number={virtualdata?.account_number}
+            account_name={virtualdata?.account_name}
+            bank={virtualdata?.bank_name}
+            
+        />
+        
+    </div>
               
           
             <p>Welcome, {profiledata?.first_name} </p>
@@ -463,7 +485,7 @@ const disabled = showPay
                   // data-bs-toggle="modal" 
                   // data-bs-target="#staticBackdrop"
                   >
-                      Buy Data
+                      International Airtime
                   </button>
               </div>
               <div className="col-sm-12 mb-5 mt-5">
@@ -591,6 +613,7 @@ const disabled = showPay
               justifyContent: "center",
               alignItems: "center",
               zIndex: 1050,
+              padding: "1rem", // optional: for small screens
             }}
           >
             <div
@@ -622,7 +645,7 @@ const disabled = showPay
                   }}
                 >
                   <h5 className="modal-title mb-0 text-black">
-                    {hasVerifiedData ? "Buy Data" : "Purchase Data"}
+                    {hasVerifiedData ? "Buy Airtime" : "Purchase Airtime"}
                   </h5>
                   <button
                     type="button"
@@ -647,7 +670,7 @@ const disabled = showPay
                           label="Select Service"
                           className="form-control"
                           width={100}
-                          options={ServiceData}
+                          options={internationalServiceData}
                           value={service.value || ""}
                           onChange={handleChange}
                         />
@@ -659,22 +682,69 @@ const disabled = showPay
                           label="Select Service"
                           className="form-control"
                           width={100}
-                          options={dataVariationData}
-                          value={variationCode?.value || "" }
+                          options={allCountryAirtimeData}
+                          value={countries.value || ""}
+                          onChange={handleCountriesChange}
+                        />
+                      </div>
+
+
+                    <div className="col-md-6">
+                        <label>Service</label>
+                        <Dropdown
+                          label="Select Service"
+                          className="form-control"
+                          width={100}
+                          options={productTypeData}
+                          value={productType?.value || "" }
+                          onChange={handleProductChange}
+                        />
+                      </div>
+
+                    <div className="col-md-6">
+                        <label>Service</label>
+                        <Dropdown
+                          label="Select Service"
+                          className="form-control"
+                          width={100}
+                          options={operatorData}
+                          value={operator?.value || "" }
+                          onChange={handleOperatorChange}
+                        />
+                      </div>
+
+                    <div className="col-md-6">
+                        <label>Service</label>
+                        <Dropdown
+                          label="Select Service"
+                          className="form-control"
+                          width={100}
+                          options={internationalVariationData}
+                          value={variation?.value || "" }
                           onChange={handleVariationChange}
                         />
                       </div>
-                      <hr />
-                      {variationCode && (
-                        <div>
-                          <p className='text-black'><strong>Selected Service:</strong> {variationCode?.label}</p>
-                          <p className='text-black'><strong>Subscription Code:</strong> {variationCode?.value}</p>
-                          <p className='text-black'><strong>Amount:</strong> {currencyFormat(variationCode?.amount)}</p>
+
+                       {variation && (
+                        <div style={{marginTop: 10}}>
+                          <h6 className='text-black'><strong>Service:</strong> {variation?.label}</h6>
+                          <h6 className='text-black'><strong>Code:</strong> {variation?.value}</h6>
+                          <h6 className='text-black'><strong>Amount:</strong> {currencyFormat(variation?.amount)}</h6>
                         </div>
                       )}
 
 
-                      <div className="row">
+
+                         <div className="col-md-6 mb-3">
+                        <label>Amount</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="Enter Amount"
+                        />
+                        </div>
                         
                         <div className="col-md-6 mb-3">
                           <label>Phone</label>
@@ -686,7 +756,6 @@ const disabled = showPay
                             placeholder="Enter Phone Number"
                           />
                         </div>
-                      </div>
 
                       <div className="col-12 mt-4">
                         {isLoading ?
@@ -744,7 +813,7 @@ const disabled = showPay
             <h5 className="text-success">Payment Successful</h5>
             <p>
               Payment of <strong>{currencyFormat(customerData.amount)}</strong> has been debited
-              from your wallet for the subscription of <strong>{customerData.content.transactions.product_name}</strong>.
+              from your wallet for the payment of <strong>{customerData.content.transactions.product_name}</strong>.
             </p>
 
             <div className="d-flex justify-content-center gap-3 mt-4">
@@ -787,4 +856,4 @@ const disabled = showPay
   )
 }
 
-export default DataPayment
+export default InternationalAirtime

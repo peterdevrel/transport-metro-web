@@ -23,7 +23,7 @@ const typedata = [
     {label: 'postpaid', value: 'postpaid'}
 ]
 
-const DataPayment = () => {
+const EducationPayment = () => {
 
                
            
@@ -96,6 +96,9 @@ const DataPayment = () => {
         commission,
         getDataVariation,
         dataVariationData,
+        getEducationServiceData,
+        educationServiceData,
+        purchaseEducationalPin
     } = useElectricity()
 
 
@@ -155,7 +158,7 @@ const DataPayment = () => {
             getUserWallet(),
             getServiceData(),
             getBillerRequestId(),
-            
+            getEducationServiceData()
         ]);
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -176,7 +179,7 @@ const DataPayment = () => {
     
 
 const handleChange = (event) => {
-  const selected = ServiceData.find(option => option.value === event.target.value);
+  const selected = educationServiceData.find(option => option.value === event.target.value);
   setService(selected);
 
   if (selected) {
@@ -279,7 +282,7 @@ const register = () => {
   setIsLoading(true);
 
   try {
-    purchaseData(params)
+    purchaseEducationalPin(params)
       .then(async (resp) => {
         const data = await resp.json();
 
@@ -433,7 +436,7 @@ const disabled = showPay
 
 
 
-<ContainerTitle title={'Buy Data'}>
+<ContainerTitle title={'Buy Educational Pins'}>
 
 
           <div className="row g-3 mb-2">
@@ -463,7 +466,7 @@ const disabled = showPay
                   // data-bs-toggle="modal" 
                   // data-bs-target="#staticBackdrop"
                   >
-                      Buy Data
+                      Buy Education Pins
                   </button>
               </div>
               <div className="col-sm-12 mb-5 mt-5">
@@ -647,7 +650,7 @@ const disabled = showPay
                           label="Select Service"
                           className="form-control"
                           width={100}
-                          options={ServiceData}
+                          options={educationServiceData}
                           value={service.value || ""}
                           onChange={handleChange}
                         />
@@ -744,7 +747,7 @@ const disabled = showPay
             <h5 className="text-success">Payment Successful</h5>
             <p>
               Payment of <strong>{currencyFormat(customerData.amount)}</strong> has been debited
-              from your wallet for the subscription of <strong>{customerData.content.transactions.product_name}</strong>.
+              from your wallet for <strong>{customerData.content.transactions.product_name}</strong>.
             </p>
 
             <div className="d-flex justify-content-center gap-3 mt-4">
@@ -787,4 +790,4 @@ const disabled = showPay
   )
 }
 
-export default DataPayment
+export default EducationPayment
