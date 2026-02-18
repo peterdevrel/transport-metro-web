@@ -16,6 +16,16 @@ const ElectricityContextProvider = ({children}) => {
     const [phone, setPhone] = useState('')
     const [amount, setAmount] = useState('')
     const [name, setName] = useState('')
+    const [insuredName, setInsuredName] = useState('')
+    const [engineCapacity, setEngineCapacity] = useState('')
+    const [chasisNumber, setChasisNumber] = useState('')
+    const [plateNumber, setPlateNumber] = useState('')
+    const [vehicleMake, setVehicleMake] = useState('')
+    const [vehicleColor, setVehicleColor] = useState('')
+    const [vehicleModel, setVehicleModel] = useState('')
+    const [YearOfMake, setYearOfMake] = useState('')
+    const [stateOfVehicle, setStateOfVehicle] = useState('')
+    const [lgaOfVehicle, setLgaOfVehicle] = useState('')
    
     
     const [ type, setType] = useState('')
@@ -35,8 +45,15 @@ const ElectricityContextProvider = ({children}) => {
     const [operatorData, setOperatorData] = useState([])
     const [internationalVariationData, setInternationalVariationData] = useState([])
     const [internationalServiceData, setInternationalServiceData] = useState([])
-
-  
+    const [tvServiceData, setTVServiceData] = useState([])
+    const [insuranceServiceData, setInsuranceServiceData] = useState([])
+    const [purchases, setPurchases] = useState([]);
+    const [states, setStates] = useState([]);
+    const [lgas, setLgas] = useState([]);
+    const [makes, setMakes] = useState([]);
+    const [models, setModels] = useState([]);
+    const [engineCaps, setEngineCaps] = useState([]);
+    const [colors, setColors] = useState([]);
   
    
    
@@ -114,6 +131,23 @@ const ElectricityContextProvider = ({children}) => {
   const purchaseElectricity = (body) => {
       try{
         return fetch(`${import.meta.env.VITE_BASE_URL}service/purchase/electricity/`,{
+          method: 'POST',
+          credentials: 'include', 
+          headers:{
+              // 'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify(body)
+        })
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+
+  const insurancePurchase = (body) => {
+      try{
+        return fetch(`${import.meta.env.VITE_BASE_URL}service/pay/insurance/`,{
           method: 'POST',
           credentials: 'include', 
           headers:{
@@ -588,6 +622,186 @@ const getVariationData = async (operatorId, productTypeId) => {
     }
 
 
+     const getTVServiceData = () => {
+        try {
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/tv-services/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${access}`
+                },
+            })
+            .then(response => response.json())
+            .then(res => { 
+                // console.log(res)
+                var count = Object.keys(res).length;
+                let serviceArray = []
+                for (var i = 0; i < count; i++){
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
+                  })
+                }               
+                setTVServiceData(serviceArray)
+            })
+        } catch (error) {
+            console.log("Poor network connection", error)
+        }
+    }
+
+     const getInsuranceServiceData = () => {
+        try {
+            return fetch(`${import.meta.env.VITE_BASE_URL}service/insurance-services/`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${access}`
+                },
+            })
+            .then(response => response.json())
+            .then(res => { 
+                // console.log(res)
+                var count = Object.keys(res).length;
+                let serviceArray = []
+                for (var i = 0; i < count; i++){
+                    serviceArray.push({
+                    value: res[i].serviceID,
+                    label: res[i].serviceID,
+                  })
+                }               
+                setInsuranceServiceData(serviceArray)
+            })
+        } catch (error) {
+            console.log("Poor network connection", error)
+        }
+    }
+
+
+
+
+  const fetchStates = async () => {
+   try {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/vehicle/state/codes/`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+     const serviceArray = data.map(item => ({
+      value: item.StateCode,
+      label: item.StateName,  // use the model name as label
+    }));
+      setStates(serviceArray);
+    } catch (error) {
+      console.error("Failed to fetch vehicle models:", error);
+    }
+  };
+
+  const fetchLgas = async (stateCode) => {
+    try{
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/vehicle/lga/${stateCode}/`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+        const serviceArray = (data.original || []).map(item => ({
+          value: item.LGACode,
+          label: item.LGAName,  // use the model name as label
+        }));
+    
+      setLgas(serviceArray);
+      } catch (error) {
+        console.error("Failed to fetch vehicle models:", error);
+      }
+    }
+
+
+const fetchMakes = async () => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/vehicle/makes/`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    // Create an array for your select input
+    const serviceArray = data.map(item => ({
+      value: item.VehicleMakeCode,
+      label: item.VehicleMakeName,
+    }));
+
+    setMakes(serviceArray);
+  } catch (error) {
+    console.error("Failed to fetch vehicle makes:", error);
+  }
+};
+
+
+const fetchModels = async (makeCode) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/vehicle/models/${makeCode}/`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    // Ensure we map the correct array (data.original)
+    const serviceArray = (data.original || []).map(item => ({
+      value: item.VehicleModelCode,
+      label: item.VehicleModelName,  // use the model name as label
+    }));
+
+    setModels(serviceArray);
+  } catch (error) {
+    console.error("Failed to fetch vehicle models:", error);
+  }
+};
+
+  const fetchEngineCaps = async () => {
+    try {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/vehicle/engine/capacity/`, {
+      credentials: "include",
+    });
+      const data = await res.json();
+      const serviceArray = (data.content || []).map(item => ({
+        value: item.CapacityCode,
+        label: item.CapacityName,  // use the model name as label
+      }));
+      setEngineCaps(serviceArray);
+    } catch (error) {
+    console.error("Failed to fetch vehicle models:", error);
+  }
+  };
+
+  const fetchColors = async () => {
+    try{
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/vehicle/colors/`, {
+      credentials: "include",
+    });
+      const data = await res.json();
+      const serviceArray = (data.content || []).map(item => ({
+        value: item.ColourCode,
+        label: item.ColourName,  // use the model name as label
+      }));
+      setColors(serviceArray);
+     } catch (error) {
+      console.error("Failed to fetch vehicle models:", error);
+    }
+  };
+
+
+  const fetchInsurancePurchases = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}service/insurance-purchases/`, {
+          credentials: "include",
+        });
+        const data = await res.json()
+        setPurchases(data);
+      } catch (error) {
+        console.error("Failed to fetch purchases:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
   return (
     <ElectricityContext.Provider value={{
       CreateUtilityPayment,
@@ -635,8 +849,36 @@ const getVariationData = async (operatorId, productTypeId) => {
         getVariationData,
         internationalVariationData, setInternationalVariationData,
         getInternationService,
-        internationalServiceData, setInternationalServiceData
-
+        internationalServiceData, setInternationalServiceData,
+        getTVServiceData,
+        tvServiceData, setTVServiceData,
+        getInsuranceServiceData,
+        insuranceServiceData, setInsuranceServiceData,
+        states, setStates,
+        lgas, setLgas,
+        makes, setMakes,
+        models, setModels,
+        engineCaps, setEngineCaps,
+        colors, setColors,
+        fetchStates,
+        fetchLgas,
+        fetchModels,
+        fetchMakes,
+        fetchEngineCaps,
+        fetchColors,
+        insuredName, setInsuredName,
+        engineCapacity, setEngineCapacity,
+        chasisNumber, setChasisNumber,
+        plateNumber, setPlateNumber,
+        vehicleMake, setVehicleMake,
+        vehicleColor, setVehicleColor,
+        vehicleModel, setVehicleModel,
+        YearOfMake, setYearOfMake,
+        stateOfVehicle, setStateOfVehicle,
+        lgaOfVehicle, setLgaOfVehicle,
+        insurancePurchase,
+        fetchInsurancePurchases,
+        purchases, setPurchases
     }}>
 
       {children}

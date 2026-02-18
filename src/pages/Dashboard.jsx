@@ -272,9 +272,18 @@ export default function Dashboard() {
                 📊 International Airtime 
               </button>
 
-              <button className="btn w-100 text-start text-white"
+              <button 
+                className="btn w-100 text-start text-white"
+                onClick={() => navigate('/tv/subscription/payment')}
                 style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
                 📊 TV Subscription 
+              </button>
+
+              <button 
+                className="btn w-100 text-start text-white"
+                onClick={() => navigate('/insurances/payment')}
+                style={{ background: "#1f1f1f", borderRadius: "15px", padding: "12px 15px" }}>
+                📊 Insurance 
               </button>
 
             </div>

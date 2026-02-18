@@ -43,6 +43,8 @@ import AirtimePayment from "../pages/airtime/AirtimePayment";
 import EducationPayment from "../pages/education/EducationPayment";
 import JambPayment from "../pages/education/JambPayment";
 import InternationalAirtime from "../pages/airtime/InternationalAirtime";
+import TvSubscriptionPayment from "../pages/tv/TvSubscriptionPayment";
+import InsurancePayment from "../pages/insurance/InsurancePayment";
 
 function AppContent() {
   const location = useLocation();
@@ -124,6 +126,14 @@ function AppContent() {
         <Route path="/education/payment" element={userdata?.user_id ? <EducationPayment /> : <Navigate to="/" replace />} />
         <Route path="/jamb/payment" element={userdata?.user_id ? <JambPayment /> : <Navigate to="/" replace />} />
 
+        {/* TV Subscription */}
+        <Route path="/tv/subscription/payment" element={userdata?.user_id ? <TvSubscriptionPayment /> : <Navigate to="/" replace />} />
+        
+        
+        {/* Insurance Renewal */}
+        <Route path="/insurances/payment" element={userdata?.user_id ? <InsurancePayment /> : <Navigate to="/" replace />} />
+        
+        
         {/* Fallback */}
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
