@@ -97,54 +97,99 @@ const ForgotPassword = () => {
     }
   }
 
-  const handleVerifyandChangePassword = () => {
-    try{
-      const resetData = {
-        email,
-        password,
-        otp: otp.join('')
-      }
-      if (joinedOtp.length !== 6 || password === "" || confirmPassword === "") {
-        toast.warn("All fields are required");
-        return;
-      }else if(password !== confirmPassword){
-        alert("Password do not match")
-      }
-      else{
-        setIsLoading(true)
-        setTimeout(() => {
-          resetPasswordWithOTP(resetData)
-          .then(resp => resp.json())
-          .then(data => {
-            if(data.success){
-              alert(data.success)
-              navigate('/')
-              setEmail("")
-              setOtp(['', '', '', '', '', '']);
-              setPassword("")
-              setConfirmPassword("")
-              setIsLoading(false)
-            }else if(data.notmatch){
-              toast.warn(data.notmatch)
-              setIsLoading(false)
-            }else if(data.detail){
-              alert(data.detail)
-              setIsLoading(false)
-            }
+  // const handleVerifyandChangePassword = () => {
+  //   try{
+  //     const resetData = {
+  //       email,
+  //       password,
+  //       otp: otp.join('')
+  //     }
+  //     if (joinedOtp.length !== 6 || password === "" || confirmPassword === "") {
+  //       toast.warn("All fields are required");
+  //       return;
+  //     }else if(password !== confirmPassword){
+  //       alert("Password do not match")
+  //     }
+  //     else{
+  //       setIsLoading(true)
+  //       setTimeout(() => {
+  //         resetPasswordWithOTP(resetData)
+  //         .then(resp => resp.json())
+  //         .then(data => {
+  //           if(data.success){
+  //             alert(data.success)
+  //             navigate('/')
+  //             setEmail("")
+  //             setOtp(['', '', '', '', '', '']);
+  //             setPassword("")
+  //             setConfirmPassword("")
+  //             setIsLoading(false)
+  //           }else if(data.notmatch){
+  //             toast.warn(data.notmatch)
+  //             setIsLoading(false)
+  //           }else if(data.detail){
+  //             alert(data.detail)
+  //             setIsLoading(false)
+  //           }
             
-          })
-        }, 1000)
+  //         })
+  //       }, 1000)
         
-      }
+  //     }
 
-    }catch(error){
-      if(error){
-        setIsLoading(false)
-        console.log("Error sending OTP", error)
-      }
-    }
+  //   }catch(error){
+  //     if(error){
+  //       setIsLoading(false)
+  //       console.log("Error sending OTP", error)
+  //     }
+  //   }
+  // }
+
+
+  const handleVerifyandChangePassword = async () => {
+  const joinedOtp = otp.join('');
+
+  if (joinedOtp.length !== 6 || !password || !confirmPassword) {
+    toast.warn("All fields are required");
+    return;
   }
 
+  if (password !== confirmPassword) {
+    toast.warn("Passwords do not match");
+    return;
+  }
+
+  try {
+    setIsLoading(true);
+
+    const resetData = {
+      email,
+      password,
+      otp: joinedOtp
+    };
+
+    const resp = await resetPasswordWithOTP(resetData);
+    const data = await resp.json();
+
+    if (data.success) {
+      toast.success(data.success);
+      navigate('/');
+      setEmail("");
+      setOtp(['','','','','','']);
+      setPassword("");
+      setConfirmPassword("");
+    } else if (data.notmatch) {
+      toast.warn(data.notmatch);
+    } else if (data.detail) {
+      toast.warn(data.detail);
+    }
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   
 const isDisabled = email.length === 0;
@@ -262,7 +307,7 @@ const isDisabledOTP =
                     <div className="mt-3">
                       <button
                         disabled={isDisabledOTP}
-                        onClick={() => handleVerifyandChangePassword()}
+                        onClick={handleVerifyandChangePassword}
                         className="btn btn-primary w-100"
                       >
                         CONFIRM & CHANGE
