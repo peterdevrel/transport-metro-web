@@ -265,7 +265,7 @@ const totalAmountKobo = (baseAmount + transactionCharge) * 100;
   
 
 const register = () => {
-  if (!totalAmountKobo || !phone || !userId) {
+  if (!variationCode.amount || !phone || !userId) {
     toast.warn("Form fields are empty");
     setIsLoading(false);
     return;
@@ -625,7 +625,7 @@ const disabled = showPay
                   }}
                 >
                   <h5 className="modal-title mb-0 text-black">
-                    {hasVerifiedData ? "Buy Data" : "Purchase Data"}
+                    {hasVerifiedData ? "Buy Education Pin" : "Purchase Education PIN"}
                   </h5>
                   <button
                     type="button"

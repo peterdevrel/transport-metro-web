@@ -290,7 +290,7 @@ const register = () => {
     serviceID: service.value,
     billerCode:phone,
     variation_code: variation?.value,
-    amount: Math.round(amount), // Convert kobo → Naira
+    amount: variation?.amount ? variation?.amount: Math.round(amount), // Convert kobo → Naira
     operator_id: operator.value,
     country_code: countries.value,
     phone:phone,
@@ -306,7 +306,7 @@ const register = () => {
         const data = await resp.json();
 
         if (data.code === "000") {
-          console.log("Payment successful:", data);
+          // console.log("Payment successful:", data);
 
           // ✅ Show success toast
           toast.success("Payment received");

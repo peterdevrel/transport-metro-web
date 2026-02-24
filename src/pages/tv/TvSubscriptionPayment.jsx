@@ -126,14 +126,6 @@ const TvSubscriptionPayment = () => {
     const [showPay, setShowPay] = useState(false)
     const [variation, setVariation] = useState([])
 
-     const [modalForm, setModalForm] = useState({
-        title: "",
-        author: "",
-        description: "",
-        category_id: "",     // boolean
-        available_copies: "",     // boolean
-        cover_image: "",     // boolean
-    })
 
     
       
@@ -914,7 +906,7 @@ const disabled = showPay
                   }}
                 >
                   <h5 className="modal-title mb-0 text-black">
-                    {hasVerifiedData ? "Pay Utility Bill" : "Verify Meter"}
+                    {hasVerifiedData ? "Cable TV Bill" : "TV Subscription Service"}
                   </h5>
                   <button
                     type="button"
@@ -971,7 +963,7 @@ const disabled = showPay
                         />
                       </div>
 
-                       {variation && (
+                       {variation?.value && service?.value && (
                         <div style={{marginTop: 10}}>
                           <h6 className='text-black'><strong>Service:</strong> {variation?.label}</h6>
                           <h6 className='text-black'><strong>Code:</strong> {variation?.value}</h6>

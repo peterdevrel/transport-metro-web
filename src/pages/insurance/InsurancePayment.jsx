@@ -1234,7 +1234,7 @@ const disabled = showPay
                               className="form-control"
                               width={60}
                               options={models}
-                              value={vehicleModel.value || ""}
+                              value={models.value || ""}
                               onChange={handleModelChange}
                             />
                           </div>

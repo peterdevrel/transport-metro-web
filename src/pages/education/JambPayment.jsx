@@ -265,7 +265,7 @@ const totalAmountKobo = (baseAmount + transactionCharge) * 100;
   
 
 const register = () => {
-  if (!totalAmountKobo || !phone || !userId) {
+  if (!totalAmountKobo || !billercodeNumber || !userId) {
     toast.warn("Form fields are empty");
     setIsLoading(false);
     return;
@@ -438,7 +438,7 @@ const hasVerifiedData = verifyingData?.content?.Customer_Account_Type;
 
 
 
-<ContainerTitle title={'Buy Educational Pins'}>
+<ContainerTitle title={'Buy Jamb Pins'}>
 
 
           <div className="row g-3 mb-2">
@@ -627,7 +627,7 @@ const hasVerifiedData = verifyingData?.content?.Customer_Account_Type;
                   }}
                 >
                   <h5 className="modal-title mb-0 text-black">
-                    {hasVerifiedData ? "Buy Data" : "Purchase Data"}
+                    {hasVerifiedData ? "Buy Jamb PIN" : "Purchase Jamb PIN"}
                   </h5>
                   <button
                     type="button"

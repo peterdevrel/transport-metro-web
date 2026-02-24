@@ -221,7 +221,7 @@ const totalAmountKobo = (baseAmount + transactionCharge) * 100;
   
 
 const register = () => {
-  if (!totalAmountKobo || !phone || !userId) {
+  if (!amount || !phone || !userId) {
     toast.warn("Form fields are empty");
     setIsLoading(false);
     return;

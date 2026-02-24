@@ -121,16 +121,7 @@ const UtilityPayment = () => {
     const [customerData,setCustomerData] = useState([])
     const [showPay, setShowPay] = useState(false)
 
-     const [modalForm, setModalForm] = useState({
-        title: "",
-        author: "",
-        description: "",
-        category_id: "",     // boolean
-        available_copies: "",     // boolean
-        cover_image: "",     // boolean
-    })
 
-    
       
     useEffect(() => {
       const userId = localStorage.getItem('userId');

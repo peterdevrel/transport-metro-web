@@ -31,9 +31,41 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [otp, setOtp] = useState("")
   const [otpSent, setOtpSent] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [otp, setOtp] = useState(['', '', '', '','','']);
+
+  // const handleChange = (e, index) => {
+  //   const value = e.target.value;
+  //   if (value.length <= 1) {
+  //     const newOtp = [...otp];
+  //     newOtp[index] = value;
+  //     setOtp(newOtp);
+  //     if (value && index < 5) {
+  //       document.getElementById(`otp-${index + 1}`).focus();
+  //     }
+  //   }
+  // };
+
+  const handleChange = (e, index) => {
+  const value = e.target.value;
+
+  if (!/^[0-9]?$/.test(value)) return; // allow only numbers
+
+  const newOtp = [...otp];
+  newOtp[index] = value;
+  setOtp(newOtp);
+
+  // move forward
+  if (value && index < 5) {
+    document.getElementById(`otp-${index + 1}`).focus();
+  }
+
+  // move backward on delete
+  if (!value && index > 0) {
+    document.getElementById(`otp-${index - 1}`).focus();
+  }
+};
 
  
   const handleOtpSent = () => {
@@ -67,9 +99,14 @@ const ForgotPassword = () => {
 
   const handleVerifyandChangePassword = () => {
     try{
-      const resetData = {'email': email, 'password': password, 'otp': otp}
-      if(otp === "" || password === "" || confirmPassword === ""){
-        alert("field is empty")
+      const resetData = {
+        email,
+        password,
+        otp: otp.join('')
+      }
+      if (joinedOtp.length !== 6 || password === "" || confirmPassword === "") {
+        toast.warn("All fields are required");
+        return;
       }else if(password !== confirmPassword){
         alert("Password do not match")
       }
@@ -83,7 +120,7 @@ const ForgotPassword = () => {
               alert(data.success)
               navigate('/')
               setEmail("")
-              setOtp("")
+              setOtp(['', '', '', '', '', '']);
               setPassword("")
               setConfirmPassword("")
               setIsLoading(false)
@@ -111,7 +148,10 @@ const ForgotPassword = () => {
 
   
 const isDisabled = email.length === 0;
-const isDisabledOTP = otp.length === 0 || password.length === 0 || confirmPassword.length === 0;
+const isDisabledOTP =
+  otp.join('').length !== 6 ||
+  password.length === 0 ||
+  confirmPassword.length === 0;
 
   return (
     <>
@@ -168,14 +208,24 @@ const isDisabledOTP = otp.length === 0 || password.length === 0 || confirmPasswo
                   Enter OTP sent to your email or phone no. & Change Password Respectively.
                 </h6>
                 <form method="POST" className="pt-3">
-                  <div className="form-group mb-4">
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Enter OTP Receive"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                    />
+                  <div className="d-flex justify-content-between gap-2 mb-4">
+                    {otp.map((val, index) => (
+                      <input
+                        key={index}
+                        id={`otp-${index}`}
+                        type="text"
+                        value={val}
+                        onChange={(e) => handleChange(e, index)}
+                        maxLength={1}
+                        className="form-control text-center fw-bold"
+                        style={{
+                          width: "3rem",
+                          height: "3rem",
+                          fontSize: "1.5rem",
+                          borderRadius: "10px"
+                        }}
+                      />
+                    ))}
                   </div>
 
                   <div className="form-group mb-4">
