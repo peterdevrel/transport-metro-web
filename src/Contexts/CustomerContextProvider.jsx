@@ -654,21 +654,15 @@ const patchUserWallet = async (admin_id, country_currency, updateData) => {
     
     
     const getAccountResolveDetail = async (account_number, bank_code) => {
-  if (!account_number || !bank_code) {
-    console.log("Account number or bank code is missing");
-    return;
-  }
+        if (!account_number || !bank_code) {
+            console.log("Account number or bank code is missing");
+            return;
+        }
 
-  const BASE_URL = import.meta.env.VITE_HOST_NAME;
-
-  if (!BASE_URL) {
-    console.log("BASE URL is not defined in environment variables");
-    return;
-  }
 
   try {
     const response = await fetch(
-      `${BASE_URL}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
+      `${import.meta.env.VITE_HOST_NAME}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
       {
         method: "GET",
         headers: {
