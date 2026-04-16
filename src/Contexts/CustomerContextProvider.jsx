@@ -653,28 +653,45 @@ const patchUserWallet = async (admin_id, country_currency, updateData) => {
 
     
     
-     const getAccountResolveDetail = async (account_number, bank_code) => {
-         if(!accountNumber || !bank_code){
-            console.log('Bank code could not be found')
-            return
-        }
-     try {
-         const response = await fetch(`${import.meta.env.VITE_HOST_NAME}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`, {
-         method: 'GET',
-         headers: {
-             'Content-Type': 'application/json',
-             'Authorization': `Bearer ${import.meta.env.VITE_SECRET_KEY}`
-         },
-         });
- 
-         const res = await response.json();
-         console.log("Resolve API response:", res); // <-- check this
-         setResolveData(res.data || {}); // or res if res.data doesn't exist
-     } catch (error) {
-         console.log("Poor network connection", error);
-         setResolveData({});
-     }
-     };
+    const getAccountResolveDetail = async (account_number, bank_code) => {
+  if (!account_number || !bank_code) {
+    console.log("Account number or bank code is missing");
+    return;
+  }
+
+  const BASE_URL = import.meta.env.VITE_HOST_NAME;
+
+  if (!BASE_URL) {
+    console.log("BASE URL is not defined in environment variables");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SECRET_KEY}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const res = await response.json();
+
+    console.log("Resolve API response:", res.data);
+
+    setResolveData(res.data || {});
+  } catch (error) {
+    console.log("Poor network connection", error);
+    setResolveData({});
+  }
+};
 
     // const getAccountResolveDetail = (account_number, bank_code) => {
     //     if(!accountNumber || !bankCode){
