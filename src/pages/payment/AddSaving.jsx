@@ -16,6 +16,7 @@ import { useCustomer } from '../../Contexts/CustomerContextProvider'
 const arrayData = [
   {label:'Saving', value: 'saving'},
   {label:'Wallet', value: 'wallet'},
+  {label:'Investment', value: 'investment'},
 ]
 
 
@@ -269,6 +270,50 @@ const fundWallet = () => {
       }, 2000)  
 }
 
+const fundInvestmentWallet = () => {
+
+    setIsLoading(true)
+      setTimeout(() => {
+              
+          const paystack = new PaystackPop();
+          paystack.newTransaction({
+              key: import.meta.env.VITE_PUBLICK_KEY,
+              email: profiledata.email,
+              amount: totalAmountKobo,
+              label: 'Investment Checkout',
+              transaction_charge: transactionChargeKobo,
+              channels: ["card"],
+              metadata: {
+                  email: profiledata.email,
+                  custom_invest: true,
+                  user_id: profiledata.id,
+                  amount: amount,
+                  description: description,
+                
+              },   
+              onSuccess: (transaction) => { 
+              //   console.log(transaction)
+              //   console.log(transaction.reference)
+                  toast.success(`Transaction Successful, RefId: ${transaction.reference}`)
+                  getAllSavingPaymentData()
+                  // navigate('/protected/dashboard')
+                   const modalEl = document.getElementById('staticBackdrop');
+                   const modal = bootstrap.Modal.getInstance(modalEl);
+                   modal.hide();
+              },
+              onCancel: () => {
+                  // user closed popup
+                  toast.warn('Payment Popup Closed')
+                  setIsLoading(false)
+              }
+          
+          })
+          setIsLoading(false)
+              
+          
+      }, 2000)  
+}
+
 
 
 
@@ -450,6 +495,14 @@ const AddModalPayment = () => {
                                           className="btn btn-primary w-50"
                                         >
                                           Add Saving
+                                        </button>:
+                                        typeArray === 'investmenet' ?
+                                        <button
+                                          type="button"
+                                          onClick={() => handlePayment()}
+                                          className="btn btn-primary w-50"
+                                        >
+                                          Add Investment
                                         </button>:
                                         <button
                                           type="button"
