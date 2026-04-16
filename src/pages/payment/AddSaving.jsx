@@ -496,10 +496,10 @@ const AddModalPayment = () => {
                                         >
                                           Add Saving
                                         </button>:
-                                        typeArray === 'investmenet' ?
+                                        typeArray === 'investment' ?
                                         <button
                                           type="button"
-                                          onClick={() => handlePayment()}
+                                          onClick={() => fundInvestmentWallet()}
                                           className="btn btn-primary w-50"
                                         >
                                           Add Investment
