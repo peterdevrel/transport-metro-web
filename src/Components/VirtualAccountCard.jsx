@@ -21,7 +21,7 @@ export default function VirtualAccountCard({ account_number, account_name, bank,
       {/* Account Number + Clipboard */}
       <div className="d-flex align-items-center">
         <h5 className="opacity-75 mb-0">
-          Acct No. {formatAccountName(account_number)}
+          Acct No. {account_number}
         </h5>
 
         <CopyToClipboard
@@ -42,7 +42,7 @@ export default function VirtualAccountCard({ account_number, account_name, bank,
       </div>
 
       {/* Account Name and Bank */}
-      <h6 className="fw-bold mt-2">{account_name}</h6>
+      <h6 className="fw-bold mt-2">{formatAccountName(account_name)}</h6>
       <h6 className="fw-bold">{bank}</h6>
     </div>
   );
