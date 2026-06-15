@@ -111,6 +111,22 @@ export default function Dashboard() {
   }, []);
 
 
+
+
+
+
+    useEffect(() => {
+      fetch("https://osrc.dolearn.online/news/external/news/", {
+        headers: {
+          Authorization: "Bearer 2ef9d2573abb7903a76835942839d2fa9f583491"
+        }
+      })
+      .then(res => res.json())
+      .then(data => console.log('external', data));
+  
+  
+    },[])
+  
   // =====================================================
   // ========== SECOND USEEFFECT — DISABLE RIGHT CLICK ====
   // =====================================================
