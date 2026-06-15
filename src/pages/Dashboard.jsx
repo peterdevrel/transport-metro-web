@@ -117,6 +117,7 @@ export default function Dashboard() {
 
     useEffect(() => {
       fetch("https://osrc.dolearn.online/news/external/news/", {
+        credentials:'include',
         headers: {
           Authorization: "Bearer 2ef9d2573abb7903a76835942839d2fa9f583491"
         }
