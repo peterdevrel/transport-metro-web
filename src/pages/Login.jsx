@@ -88,7 +88,7 @@ const onLogin = () => {
           localStorage.setItem('user_option', data.user_option);
 
           // 🌟 Wait for profile to load
-          await getProfileUser(data.user_id);
+          
 
           // 🌟 Then handle navigation and toast
           setIsLoggedIn(true);

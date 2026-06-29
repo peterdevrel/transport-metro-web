@@ -99,6 +99,7 @@ export default function Dashboard() {
           fetchUserCounts(),
           getAllQrWalletTransaction(),
           getAllQrUserWalletTransaction(),
+          getProfileUser(userId),
         ]);
       } catch (err) {
         console.error("Dashboard fetch error:", err);
