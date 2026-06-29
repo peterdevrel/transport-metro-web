@@ -70,16 +70,16 @@ const getProfileUser = async () => {
       }
     );
 
-    if (response.status === 401) {
-      console.log("Access token expired, refreshing...");
-      const refreshed = await refreshAccessToken();
+    // if (response.status === 401) {
+    //   console.log("Access token expired, refreshing...");
+    //   const refreshed = await refreshAccessToken();
 
-      if (refreshed) return getProfileUser();
+    //   if (refreshed) return getProfileUser();
       
-      alert("Your session has expired. Please sign in again.");
-      redirectToLogin();
-      return null;
-    }
+    //   alert("Your session has expired. Please sign in again.");
+    //   redirectToLogin();
+    //   return null;
+    // }
 
     if (!response.ok) {
       const errorText = await response.text();
